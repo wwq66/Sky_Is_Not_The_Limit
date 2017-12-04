@@ -119,6 +119,11 @@ int main()
 				click_e = true;
 				exit_menu = true;
 			}
+			if (mouse_over_t == true)
+			{
+				click_t = true;
+				exit_menu = true;
+			}
 		}
 
 			printf("x: %d\n", mouse_x);
@@ -135,13 +140,30 @@ int main()
 			al_flip_display();
 		
 	}
-	if (click_e = true)
+	if (click_e == true)
 	{
 		al_destroy_bitmap(menu_logo);
 		al_destroy_event_queue(mouse_queue);
 		al_destroy_font(font_choose_menu);
 		al_destroy_font(font_main_menu);
 		al_destroy_display(menu_display);
+	}
+	if (click_t == true)
+	{
+		al_destroy_bitmap(menu_logo);
+		al_destroy_event_queue(mouse_queue);
+		al_destroy_font(font_choose_menu);
+		al_destroy_font(font_main_menu);
+		al_destroy_display(menu_display);
+
+		ALLEGRO_DISPLAY *tutorial_display = al_create_display(1250, 650);
+		if (!tutorial_display)
+		{
+			printf("Failed to create tutorial display!\n");
+			return 1;
+		}
+		al_clear_to_color(al_map_rgb(0, 0, 0));
+		al_flip_display();
 	}
 
 	system("pause");
