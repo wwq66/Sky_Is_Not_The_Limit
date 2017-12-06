@@ -175,8 +175,12 @@ int main()
 
 		ALLEGRO_BITMAP *ladder = al_load_bitmap("ladder.png");
 		al_draw_bitmap(ladder, 1035, 400, NULL);
+		al_draw_bitmap(ladder, 415, 230, NULL);
 
 		ALLEGRO_BITMAP *champion = al_load_bitmap("champion.png");
+
+		ALLEGRO_BITMAP *key = al_load_bitmap("key.png");
+		al_draw_bitmap(key, 750, 295, NULL);
 
 		ALLEGRO_FONT *tutorial_font = al_load_font("ARIALNB.TTF", 25, NULL);
 		
@@ -186,6 +190,7 @@ int main()
 		bool end_of_tutorial = false;
 		bool champion_over_ladder = false;
 		bool champion_on_ladder = false;
+		bool key_owned = false;
 		while (!end_of_tutorial)
 		{
 			ALLEGRO_EVENT_QUEUE *tutorial_queue = al_create_event_queue();
@@ -210,7 +215,15 @@ int main()
 				al_draw_bitmap(ground, 65, 375, NULL);
 				al_draw_bitmap(ground, 65, 205, NULL);
 				al_draw_bitmap(ladder, 1035, 400, NULL);
-				
+				al_draw_bitmap(ladder, 415, 230, NULL);
+				if (key_owned == false)
+				{
+					al_draw_bitmap(key, 750, 295, NULL);
+				}
+				else
+				{
+					al_draw_bitmap(key, 15, 15, NULL);
+				}
 				switch (tutorial_event.keyboard.keycode)
 				{
 				case ALLEGRO_KEY_LEFT:
@@ -254,6 +267,16 @@ int main()
 			{
 				al_draw_text(tutorial_font, al_map_rgb(53, 72, 94), 700, 30, ALLEGRO_ALIGN_CENTER, "Ooo! You have found a ladder! Ladders are the only way to go higher. Let's check it! Use your up key!");
 			}
+			// text 03
+			if ((x_position <= 895) && (x_position > 735) && (y_position == 285))
+			{
+				al_draw_text(tutorial_font, al_map_rgb(53, 72, 94), 700, 30, ALLEGRO_ALIGN_CENTER, "Do you see the door in front of you? You need a key to open them!");
+			}
+			//text 04
+			if ((x_position == 735) && (y_position == 285))
+			{
+				al_draw_text(tutorial_font, al_map_rgb(53, 72, 94), 700, 30, ALLEGRO_ALIGN_CENTER, "OK! You have found the key, you can see it in the left corner.");
+			}
 
 			if ((x_position == 1035) && (y_position > 285))
 			{
@@ -276,6 +299,11 @@ int main()
 			else
 			{
 				champion_on_ladder = true;
+			}
+
+			if ((x_position == 735) && (y_position == 285))
+			{
+				key_owned = true;
 			}
 
 
