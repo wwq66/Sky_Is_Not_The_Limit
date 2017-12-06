@@ -7,7 +7,7 @@ int const menu_screen_w = 800;
 int const menu_screen_h = 450;
 int const tutorial_screen_w = 1250;
 int const tutorial_screen_h = 650;
-
+int const FPS = 60.0;
 
 int main()
 {
@@ -164,23 +164,77 @@ int main()
 			printf("Failed to create tutorial display!\n");
 			return 1;
 		}
+
 		ALLEGRO_BITMAP *tutorial_background = al_load_bitmap("tut_background.png");
 		al_clear_to_color(al_map_rgb(0, 0, 0));
 		al_draw_bitmap(tutorial_background, 0, 0, NULL);
+
 		ALLEGRO_BITMAP *ground = al_load_bitmap("ground.png");
 		al_draw_bitmap(ground, 65, 545, NULL);
 		al_draw_bitmap(ground, 65, 375, NULL);
 		al_draw_bitmap(ground, 65, 205, NULL);
+
+		ALLEGRO_BITMAP *champion = al_load_bitmap("champion.png");
+
+		ALLEGRO_FONT *tutorial_font = al_load_font("ARIALNB.TTF", 25, NULL);
+		//al_draw_text(tutorial_font, al_map_rgb(53, 72, 94), 700, 30, ALLEGRO_ALIGN_CENTER, "halo halo halo halo halo halo halo");
+
+		int x_position = 75;
+		int y_position = 455;
 		bool end_of_tutorial = false;
 		while (!end_of_tutorial)
 		{
+			ALLEGRO_EVENT_QUEUE *tutorial_queue = al_create_event_queue();
+			al_register_event_source(tutorial_queue, al_get_mouse_event_source());
+			al_register_event_source(tutorial_queue, al_get_keyboard_event_source());
+
 			ALLEGRO_EVENT tutorial_event;
-			al_wait_for_event(mouse_queue, &tutorial_event);
+			al_wait_for_event(tutorial_queue, &tutorial_event);
 			if (tutorial_event.type == ALLEGRO_EVENT_MOUSE_AXES)
 			{
 				mouse_x = tutorial_event.mouse.x;
 				mouse_y = tutorial_event.mouse.y;
 			}
+
+
+
+			if (tutorial_event.type = ALLEGRO_EVENT_KEY_DOWN)
+			{
+				al_clear_to_color(al_map_rgb(0, 0, 0));
+				al_draw_bitmap(tutorial_background, 0, 0, NULL);
+				al_draw_bitmap(ground, 65, 545, NULL);
+				al_draw_bitmap(ground, 65, 375, NULL);
+				al_draw_bitmap(ground, 65, 205, NULL);
+				
+				switch (tutorial_event.keyboard.keycode)
+				{
+				case ALLEGRO_KEY_LEFT:
+				{
+					printf("left\n");
+					x_position = x_position - 20;
+					break;
+				}
+				case ALLEGRO_KEY_RIGHT:
+				{
+					printf("right\n");
+					x_position = x_position + 20;
+					break;
+				}
+				case ALLEGRO_KEY_UP:
+				{
+					printf("up\n");
+					break;
+				}
+				}
+			}
+
+			al_draw_bitmap(champion, x_position, y_position, NULL);
+
+
+
+
+
+
 			printf("x: %d\n", mouse_x);
 			printf("y: %d\n", mouse_y);
 			al_flip_display();
