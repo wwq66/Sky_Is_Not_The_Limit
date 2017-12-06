@@ -182,6 +182,9 @@ int main()
 		ALLEGRO_BITMAP *key = al_load_bitmap("key.png");
 		al_draw_bitmap(key, 750, 295, NULL);
 
+		ALLEGRO_BITMAP *closed_door = al_load_bitmap("closed_door.png");
+		al_draw_bitmap(closed_door, 235, 225, NULL);
+
 		ALLEGRO_FONT *tutorial_font = al_load_font("ARIALNB.TTF", 25, NULL);
 		
 
@@ -191,6 +194,7 @@ int main()
 		bool champion_over_ladder = false;
 		bool champion_on_ladder = false;
 		bool key_owned = false;
+		bool door_opened = false;
 		while (!end_of_tutorial)
 		{
 			ALLEGRO_EVENT_QUEUE *tutorial_queue = al_create_event_queue();
@@ -223,6 +227,10 @@ int main()
 				else
 				{
 					al_draw_bitmap(key, 15, 15, NULL);
+				}
+				if (door_opened == false)
+				{
+					al_draw_bitmap(closed_door, 235, 225, NULL);
 				}
 				switch (tutorial_event.keyboard.keycode)
 				{
@@ -277,8 +285,17 @@ int main()
 			{
 				al_draw_text(tutorial_font, al_map_rgb(53, 72, 94), 700, 30, ALLEGRO_ALIGN_CENTER, "OK! You have found the key, you can see it in the left corner.");
 			}
+			//text 05
+			if ((x_position <=595) && (y_position == 285))
+			{
+				al_draw_text(tutorial_font, al_map_rgb(53, 72, 94), 700, 30, ALLEGRO_ALIGN_CENTER, "This ladder is tempting, but keep going left, please. :)");
+			}
 
-			if ((x_position == 1035) && (y_position > 285))
+			if ((x_position==1035)&&(y_position<=455)&&(y_position>285))
+			{
+				champion_over_ladder = true;
+			}
+			else if ((x_position == 415) && (y_position <= 285) && (y_position > 115))
 			{
 				champion_over_ladder = true;
 			}
@@ -293,6 +310,10 @@ int main()
 				champion_on_ladder = false;
 			}
 			else if (y_position == 285)
+			{
+				champion_on_ladder = false;
+			}
+			else if (y_position == 115)
 			{
 				champion_on_ladder = false;
 			}
