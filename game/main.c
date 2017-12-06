@@ -61,13 +61,13 @@ int main()
 
 	while (!exit_menu)
 	{
-		ALLEGRO_EVENT event;
-		al_wait_for_event(mouse_queue, &event);
+		ALLEGRO_EVENT menu_event;
+		al_wait_for_event(mouse_queue, &menu_event);
 
-		if (event.type == ALLEGRO_EVENT_MOUSE_AXES)
+		if (menu_event.type == ALLEGRO_EVENT_MOUSE_AXES)
 		{
-			mouse_x = event.mouse.x;
-			mouse_y = event.mouse.y;
+			mouse_x = menu_event.mouse.x;
+			mouse_y = menu_event.mouse.y;
 
 
 			if ((mouse_y >= 280) && (mouse_y <= 305) && (mouse_x >= 328) && (mouse_x <= 474))
@@ -115,7 +115,7 @@ int main()
 				mouse_over_e = false;
 			}
 		}
-		if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
+		if (menu_event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
 		{
 			if (mouse_over_e == true)
 			{
@@ -154,12 +154,11 @@ int main()
 	if (click_t == true)
 	{
 		al_destroy_bitmap(menu_logo);
-		al_destroy_event_queue(mouse_queue);
 		al_destroy_font(font_choose_menu);
 		al_destroy_font(font_main_menu);
 		al_destroy_display(menu_display);
 
-		ALLEGRO_DISPLAY *tutorial_display = al_create_display(tutorial_screen_w,tutorial_screen_h);
+		ALLEGRO_DISPLAY *tutorial_display = al_create_display(tutorial_screen_w, tutorial_screen_h);
 		if (!tutorial_display)
 		{
 			printf("Failed to create tutorial display!\n");
@@ -168,9 +167,25 @@ int main()
 		ALLEGRO_BITMAP *tutorial_background = al_load_bitmap("tut_background.png");
 		al_clear_to_color(al_map_rgb(0, 0, 0));
 		al_draw_bitmap(tutorial_background, 0, 0, NULL);
-		al_flip_display();
+		ALLEGRO_BITMAP *ground = al_load_bitmap("ground.png");
+		al_draw_bitmap(ground, 65, 545, NULL);
+		al_draw_bitmap(ground, 65, 375, NULL);
+		al_draw_bitmap(ground, 65, 205, NULL);
+		bool end_of_tutorial = false;
+		while (!end_of_tutorial)
+		{
+			ALLEGRO_EVENT tutorial_event;
+			al_wait_for_event(mouse_queue, &tutorial_event);
+			if (tutorial_event.type == ALLEGRO_EVENT_MOUSE_AXES)
+			{
+				mouse_x = tutorial_event.mouse.x;
+				mouse_y = tutorial_event.mouse.y;
+			}
+			printf("x: %d\n", mouse_x);
+			printf("y: %d\n", mouse_y);
+			al_flip_display();
+		}
 	}
-
 	system("pause");
 	return 0;
 }
