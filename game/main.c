@@ -7,7 +7,6 @@ int const menu_screen_w = 800;
 int const menu_screen_h = 450;
 int const tutorial_screen_w = 1250;
 int const tutorial_screen_h = 650;
-int const FPS = 60.0;
 
 int main()
 {
@@ -174,14 +173,19 @@ int main()
 		al_draw_bitmap(ground, 65, 375, NULL);
 		al_draw_bitmap(ground, 65, 205, NULL);
 
+		ALLEGRO_BITMAP *ladder = al_load_bitmap("ladder.png");
+		al_draw_bitmap(ladder, 1035, 400, NULL);
+
 		ALLEGRO_BITMAP *champion = al_load_bitmap("champion.png");
 
 		ALLEGRO_FONT *tutorial_font = al_load_font("ARIALNB.TTF", 25, NULL);
-		//al_draw_text(tutorial_font, al_map_rgb(53, 72, 94), 700, 30, ALLEGRO_ALIGN_CENTER, "halo halo halo halo halo halo halo");
+		
 
 		int x_position = 75;
 		int y_position = 455;
 		bool end_of_tutorial = false;
+		bool champion_over_ladder = false;
+		bool champion_on_ladder = false;
 		while (!end_of_tutorial)
 		{
 			ALLEGRO_EVENT_QUEUE *tutorial_queue = al_create_event_queue();
@@ -198,38 +202,81 @@ int main()
 
 
 
-			if (tutorial_event.type = ALLEGRO_EVENT_KEY_DOWN)
+			if (tutorial_event.type == ALLEGRO_EVENT_KEY_DOWN)
 			{
 				al_clear_to_color(al_map_rgb(0, 0, 0));
 				al_draw_bitmap(tutorial_background, 0, 0, NULL);
 				al_draw_bitmap(ground, 65, 545, NULL);
 				al_draw_bitmap(ground, 65, 375, NULL);
 				al_draw_bitmap(ground, 65, 205, NULL);
+				al_draw_bitmap(ladder, 1035, 400, NULL);
 				
 				switch (tutorial_event.keyboard.keycode)
 				{
 				case ALLEGRO_KEY_LEFT:
 				{
 					printf("left\n");
-					x_position = x_position - 20;
+					if ((x_position-20>=35)&&(champion_on_ladder==false))
+					{
+						x_position = x_position - 20;
+					}
 					break;
 				}
 				case ALLEGRO_KEY_RIGHT:
 				{
 					printf("right\n");
-					x_position = x_position + 20;
+					if ((x_position+20<=1135)&&(champion_on_ladder==false))
+					{
+						x_position = x_position + 20;
+					}
 					break;
 				}
 				case ALLEGRO_KEY_UP:
 				{
 					printf("up\n");
+					if (champion_over_ladder == true)
+					{
+					y_position = y_position - 34;
+					}
 					break;
 				}
 				}
 			}
-
 			al_draw_bitmap(champion, x_position, y_position, NULL);
 
+			// text 01 -> hello!
+			if (x_position < 900)
+			{
+				al_draw_text(tutorial_font, al_map_rgb(53, 72, 94), 700, 30, ALLEGRO_ALIGN_CENTER, "Hello! This is your champion. Use your cursor keys to move him!");
+			}
+			// text 02
+			if (x_position >= 915)
+			{
+				al_draw_text(tutorial_font, al_map_rgb(53, 72, 94), 700, 30, ALLEGRO_ALIGN_CENTER, "Ooo! You have found a ladder! Ladders are the only way to go higher. Let's check it! Use your up key!");
+			}
+
+			if ((x_position == 1035) && (y_position > 285))
+			{
+				champion_over_ladder = true;
+			}
+			else
+			{
+				champion_over_ladder = false;
+			}
+			
+
+			if (y_position == 455)
+			{
+				champion_on_ladder = false;
+			}
+			else if (y_position == 285)
+			{
+				champion_on_ladder = false;
+			}
+			else
+			{
+				champion_on_ladder = true;
+			}
 
 
 
@@ -237,6 +284,8 @@ int main()
 
 			printf("x: %d\n", mouse_x);
 			printf("y: %d\n", mouse_y);
+			printf("x_position: %d\n", x_position);
+			printf("y_position: %d\n", y_position);
 			al_flip_display();
 		}
 	}
