@@ -245,12 +245,12 @@ int main()
 			al_draw_bitmap(champion, x_position, y_position, NULL);
 
 			// text 01 -> hello!
-			if (x_position < 900)
+			if ((x_position < 900)&&(y_position==455))
 			{
 				al_draw_text(tutorial_font, al_map_rgb(53, 72, 94), 700, 30, ALLEGRO_ALIGN_CENTER, "Hello! This is your champion. Use your cursor keys to move him!");
 			}
 			// text 02
-			if (x_position >= 915)
+			if ((x_position >= 915)&&(y_position==455))
 			{
 				al_draw_text(tutorial_font, al_map_rgb(53, 72, 94), 700, 30, ALLEGRO_ALIGN_CENTER, "Ooo! You have found a ladder! Ladders are the only way to go higher. Let's check it! Use your up key!");
 			}
