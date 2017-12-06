@@ -3,19 +3,11 @@
 #include<allegro5\allegro_primitives.h>
 #include<allegro5\allegro_font.h>
 
-int const screen_w = 800;
-int const screen_h = 450;
-int mouse_x;
-int mouse_y;
-int r_ng = 255;
-int r_t = 255;
-int r_e = 255;
-int g_ng = 255;
-int g_t = 255;
-int g_e = 255;
-int b_ng = 255;
-int b_t = 255;
-int b_e = 255;
+int const menu_screen_w = 800;
+int const menu_screen_h = 450;
+int const tutorial_screen_w = 1250;
+int const tutorial_screen_h = 650;
+
 
 int main()
 {
@@ -26,7 +18,7 @@ int main()
 		return 1;
 	}
 
-	ALLEGRO_DISPLAY *menu_display = al_create_display(screen_w, screen_h);
+	ALLEGRO_DISPLAY *menu_display = al_create_display(menu_screen_w, menu_screen_h);
 	if (!menu_display)
 	{
 		printf("Failed to create menu display!\n");
@@ -55,6 +47,17 @@ int main()
 	bool click_ng = false;
 	bool click_t = false;
 	bool click_e = false;
+	int mouse_x;
+	int mouse_y;
+	int r_ng = 255;
+	int r_t = 255;
+	int r_e = 255;
+	int g_ng = 255;
+	int g_t = 255;
+	int g_e = 255;
+	int b_ng = 255;
+	int b_t = 255;
+	int b_e = 255;
 
 	while (!exit_menu)
 	{
@@ -133,10 +136,10 @@ int main()
 			al_clear_to_color(al_map_rgb(0, 0, 0));
 			al_draw_bitmap(menu_logo, 0, 0, NULL);
 			al_get_target_bitmap(al_get_backbuffer(menu_display));
-			al_draw_text(font_main_menu, al_map_rgb(255, 255, 255), screen_w / 2, 200, ALLEGRO_ALIGN_CENTER, "MAIN MENU");
-			al_draw_text(font_choose_menu, al_map_rgb(r_ng, g_ng, b_ng), screen_w / 2, 270, ALLEGRO_ALIGN_CENTER, "new game");
-			al_draw_text(font_choose_menu, al_map_rgb(r_t, g_t, b_t), screen_w / 2, 310, ALLEGRO_ALIGN_CENTER, "tutorial");
-			al_draw_text(font_choose_menu, al_map_rgb(r_e, g_e, b_e), screen_w / 2, 350, ALLEGRO_ALIGN_CENTER, "exit");
+			al_draw_text(font_main_menu, al_map_rgb(255, 255, 255), menu_screen_w / 2, 200, ALLEGRO_ALIGN_CENTER, "MAIN MENU");
+			al_draw_text(font_choose_menu, al_map_rgb(r_ng, g_ng, b_ng), menu_screen_w / 2, 270, ALLEGRO_ALIGN_CENTER, "new game");
+			al_draw_text(font_choose_menu, al_map_rgb(r_t, g_t, b_t), menu_screen_w / 2, 310, ALLEGRO_ALIGN_CENTER, "tutorial");
+			al_draw_text(font_choose_menu, al_map_rgb(r_e, g_e, b_e), menu_screen_w / 2, 350, ALLEGRO_ALIGN_CENTER, "exit");
 			al_flip_display();
 		
 	}
@@ -156,13 +159,15 @@ int main()
 		al_destroy_font(font_main_menu);
 		al_destroy_display(menu_display);
 
-		ALLEGRO_DISPLAY *tutorial_display = al_create_display(1250, 650);
+		ALLEGRO_DISPLAY *tutorial_display = al_create_display(tutorial_screen_w,tutorial_screen_h);
 		if (!tutorial_display)
 		{
 			printf("Failed to create tutorial display!\n");
 			return 1;
 		}
+		ALLEGRO_BITMAP *tutorial_background = al_load_bitmap("tut_background.png");
 		al_clear_to_color(al_map_rgb(0, 0, 0));
+		al_draw_bitmap(tutorial_background, 0, 0, NULL);
 		al_flip_display();
 	}
 
