@@ -185,6 +185,16 @@ int main()
 		ALLEGRO_BITMAP *closed_door = al_load_bitmap("closed_door.png");
 		al_draw_bitmap(closed_door, 235, 225, NULL);
 
+		ALLEGRO_BITMAP *opened_door = al_load_bitmap("opened_door.png");
+
+		ALLEGRO_BITMAP *artifact = al_load_bitmap("artifact.png");
+		al_draw_bitmap(artifact, 105, 295, NULL);
+
+		ALLEGRO_BITMAP *portal_closed = al_load_bitmap("portal_closed.png");
+		al_draw_bitmap(portal_closed, 1000, 45, NULL);
+
+		ALLEGRO_BITMAP *portal_opened = al_load_bitmap("portal_opened.png");
+
 		ALLEGRO_FONT *tutorial_font = al_load_font("ARIALNB.TTF", 25, NULL);
 		
 
@@ -195,6 +205,8 @@ int main()
 		bool champion_on_ladder = false;
 		bool key_owned = false;
 		bool door_opened = false;
+		bool artifact_owned = false;
+		bool champion_over_portal = false;
 		while (!end_of_tutorial)
 		{
 			ALLEGRO_EVENT_QUEUE *tutorial_queue = al_create_event_queue();
@@ -231,6 +243,26 @@ int main()
 				if (door_opened == false)
 				{
 					al_draw_bitmap(closed_door, 235, 225, NULL);
+				}
+				else
+				{
+					al_draw_bitmap(opened_door, 235, 225, NULL);
+				}
+				if (artifact_owned == false)
+				{
+					al_draw_bitmap(artifact, 105, 295, NULL);
+				}
+				else
+				{
+					al_draw_bitmap(artifact, 15, 65, NULL);
+				}
+				if (artifact_owned == false)
+				{
+					al_draw_bitmap(portal_closed, 1000, 45, NULL);
+				}
+				else if (artifact_owned == true)
+				{
+					al_draw_bitmap(portal_opened, 1000, 45, NULL);
 				}
 				switch (tutorial_event.keyboard.keycode)
 				{
@@ -286,9 +318,19 @@ int main()
 				al_draw_text(tutorial_font, al_map_rgb(53, 72, 94), 700, 30, ALLEGRO_ALIGN_CENTER, "OK! You have found the key, you can see it in the left corner.");
 			}
 			//text 05
-			if ((x_position <=595) && (y_position == 285))
+			if ((x_position <=595) && (x_position>275) && (y_position == 285) && (artifact_owned==false))
 			{
 				al_draw_text(tutorial_font, al_map_rgb(53, 72, 94), 700, 30, ALLEGRO_ALIGN_CENTER, "This ladder is tempting, but keep going left, please. :)");
+			}
+			//text 06
+			if ((x_position == 275) && (y_position == 285) && (artifact_owned == false))
+			{
+				al_draw_multiline_text(tutorial_font, al_map_rgb(53, 72, 94), 700, 30, 1000, 25, ALLEGRO_ALIGN_CENTER, "Oh, yeah! The door is open! And look, there is artifact behind a door. You need to take it, if you want to finish this level. Then, go higher by the ladder.");
+			}
+			//text 07
+			if ((x_position >= 535) && (y_position == 115))
+			{
+				al_draw_text(tutorial_font, al_map_rgb(53, 72, 94), 700, 30, ALLEGRO_ALIGN_CENTER, "You have got the artifact, so portal is activated! This is the end of our tutorial!");
 			}
 
 			if ((x_position==1035)&&(y_position<=455)&&(y_position>285))
@@ -327,9 +369,28 @@ int main()
 				key_owned = true;
 			}
 
+			if ((x_position == 275) && (y_position == 285))
+			{
+				if (key_owned == true)
+				{
+					door_opened = true;
+				}
+			}
 
+			if ((x_position == 75) && (y_position == 285))
+			{
+				artifact_owned = true;
+			}
 
+			if ((x_position == 1015) && (y_position == 115) && (artifact_owned == true))
+			{
+				champion_over_portal = true;
+			}
 
+			if (champion_over_portal == true)
+			{
+				end_of_tutorial = true;
+			}
 
 			printf("x: %d\n", mouse_x);
 			printf("y: %d\n", mouse_y);
@@ -337,6 +398,20 @@ int main()
 			printf("y_position: %d\n", y_position);
 			al_flip_display();
 		}
+		al_clear_to_color(al_map_rgb(0, 0, 0));
+		al_destroy_bitmap(artifact);
+		al_destroy_bitmap(champion);
+		al_destroy_bitmap(closed_door);
+		al_destroy_bitmap(ground);
+		al_destroy_bitmap(key);
+		al_destroy_bitmap(ladder);
+		al_destroy_bitmap(opened_door);
+		al_destroy_bitmap(portal_closed);
+		al_destroy_bitmap(portal_opened);
+		al_destroy_bitmap(tutorial_background);
+		al_destroy_font(tutorial_font);
+		al_destroy_display(tutorial_display);
+		//al_destroy_event_queue(tutorial_queue);
 	}
 	system("pause");
 	return 0;
