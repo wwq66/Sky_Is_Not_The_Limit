@@ -652,6 +652,9 @@ int main()
 			ALLEGRO_BITMAP *lvl1_stone = al_load_bitmap("stone_lvls.png");
 			al_draw_bitmap(lvl1_stone, 825, 132, NULL);
 
+			ALLEGRO_BITMAP *lvl1_pickaxe = al_load_bitmap("pick_lvls.png");
+			al_draw_bitmap(lvl1_pickaxe, 95, 440, NULL);
+
 			int x_position = 65;
 			int y_position = 555;
 			//bool champion_over_ladder = false;
@@ -695,6 +698,7 @@ int main()
 					al_draw_bitmap(lvl1_key, 95, 80, NULL);
 					al_draw_bitmap(lvl1_artifact, 1000, 560,NULL);
 					al_draw_bitmap(lvl1_stone, 825, 132, NULL);
+					al_draw_bitmap(lvl1_pickaxe, 95, 440, NULL);
 					if (door_opened == false)
 					{
 						al_draw_bitmap(lvl1_closed_door, 770, 252, NULL);
