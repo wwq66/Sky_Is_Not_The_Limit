@@ -480,7 +480,7 @@ int main()
 			{
 				mouse_x = new_game_choose_menu_event.mouse.x;
 				mouse_y = new_game_choose_menu_event.mouse.y;
-			
+
 				if ((mouse_y >= 195) && (mouse_y <= 230) && (mouse_x >= 355) && (mouse_x <= 445))
 				{
 					r_lvl1 = 20;
@@ -525,7 +525,7 @@ int main()
 					b_lvl3 = 255;
 					mouse_over_lvl3 = false;
 				}
-			
+
 				if ((mouse_y >= 325) && (mouse_y <= 365) && (mouse_x >= 355) && (mouse_x <= 445))
 				{
 					r_lvl4 = 20;
@@ -613,27 +613,129 @@ int main()
 				printf("Failed to create new level display!\n");
 				return 1;
 			}
-			
-			ALLEGRO_BITMAP *lvl1_background = al_load_bitmap("tut_background.png");
-
-
-
-
-
-
-
-
-
-
-
 			al_clear_to_color(al_map_rgb(0, 0, 0));
+
+			ALLEGRO_BITMAP *lvl1_background = al_load_bitmap("tut_background.png");
 			al_draw_bitmap(lvl1_background, 0, 0, NULL);
-			al_flip_display();
 
-		}
-		
-		
-	
+			ALLEGRO_BITMAP *lvl1_ground = al_load_bitmap("ground_lvls.png");
+			al_draw_bitmap(lvl1_ground, 65, 360, NULL);
+			al_draw_bitmap(lvl1_ground, 65, 240, NULL);
+			al_draw_bitmap(lvl1_ground, 65, 120, NULL);
+
+			ALLEGRO_BITMAP *lvl1_broken_ground = al_load_bitmap("broken_ground_lvl1.png");
+			al_draw_bitmap(lvl1_broken_ground, 65, 600, NULL);
+			al_draw_bitmap(lvl1_broken_ground, 65, 480, NULL);
+
+			ALLEGRO_BITMAP *lvl1_champion = al_load_bitmap("champion_lvls.png");
+
+			ALLEGRO_BITMAP *lvl1_ladder = al_load_bitmap("ladder_lvls.png");
+			al_draw_bitmap(lvl1_ladder, 325, 492, NULL);
+			al_draw_bitmap(lvl1_ladder, 1105, 492, NULL);
+			al_draw_bitmap(lvl1_ladder, 165, 372, NULL);
+			al_draw_bitmap(lvl1_ladder, 545, 372, NULL);
+			al_draw_bitmap(lvl1_ladder, 985, 372, NULL);
+			al_draw_bitmap(lvl1_ladder, 365, 252, NULL);
+			al_draw_bitmap(lvl1_ladder, 925, 132, NULL);
+
+			ALLEGRO_BITMAP *lvl1_closed_door = al_load_bitmap("closed_door_lvls.png");
+			al_draw_bitmap(lvl1_closed_door, 770, 252, NULL);
+
+			ALLEGRO_BITMAP *lvl1_opened_door = al_load_bitmap("opened_door_lvls.png");
+
+			ALLEGRO_BITMAP *lvl1_key = al_load_bitmap("key_lvls.png");
+			al_draw_bitmap(lvl1_key, 95, 80, NULL);
+
+			ALLEGRO_BITMAP *lvl1_artifact = al_load_bitmap("artifact_lvls.png");
+			al_draw_bitmap(lvl1_artifact, 1000, 560, NULL);
+
+			ALLEGRO_BITMAP *lvl1_stone = al_load_bitmap("stone_lvls.png");
+			al_draw_bitmap(lvl1_stone, 825, 132, NULL);
+
+			int x_position = 65;
+			int y_position = 555;
+			//bool champion_over_ladder = false;
+			//bool champion_on_ladder = false;
+			//bool key_owned = false;
+			bool door_opened = false;
+			//bool artifact_owned = false;
+			//bool champion_over_portal = false;
+			bool end_of_lvl1 = false;
+			while (!end_of_lvl1)
+			{
+				ALLEGRO_EVENT_QUEUE *lvl1_queue = al_create_event_queue();
+				al_register_event_source(lvl1_queue, al_get_mouse_event_source());
+				al_register_event_source(lvl1_queue, al_get_keyboard_event_source());
+
+				ALLEGRO_EVENT lvl1_event;
+				al_wait_for_event(lvl1_queue, &lvl1_event);
+
+				if (lvl1_event.type == ALLEGRO_EVENT_MOUSE_AXES)
+				{
+					mouse_x = lvl1_event.mouse.x;
+					mouse_y = lvl1_event.mouse.y;
+				}
+
+				if (lvl1_event.type == ALLEGRO_EVENT_KEY_DOWN)
+				{
+					al_clear_to_color(al_map_rgb(0, 0, 0));
+					al_draw_bitmap(lvl1_background, 0, 0, NULL);
+					al_draw_bitmap(lvl1_ground, 65, 360, NULL);
+					al_draw_bitmap(lvl1_ground, 65, 240, NULL);
+					al_draw_bitmap(lvl1_ground, 65, 120, NULL);
+					al_draw_bitmap(lvl1_broken_ground, 65, 600, NULL);
+					al_draw_bitmap(lvl1_broken_ground, 65, 480, NULL);
+					al_draw_bitmap(lvl1_ladder, 325, 492, NULL);
+					al_draw_bitmap(lvl1_ladder, 1105, 492, NULL);
+					al_draw_bitmap(lvl1_ladder, 165, 372, NULL);
+					al_draw_bitmap(lvl1_ladder, 545, 372, NULL);
+					al_draw_bitmap(lvl1_ladder, 985, 372, NULL);
+					al_draw_bitmap(lvl1_ladder, 365, 252, NULL);
+					al_draw_bitmap(lvl1_ladder, 925, 132, NULL);
+					al_draw_bitmap(lvl1_key, 95, 80, NULL);
+					al_draw_bitmap(lvl1_artifact, 1000, 560,NULL);
+					al_draw_bitmap(lvl1_stone, 825, 132, NULL);
+					if (door_opened == false)
+					{
+						al_draw_bitmap(lvl1_closed_door, 770, 252, NULL);
+					}
+					else if (door_opened == true)
+					{
+						al_draw_bitmap(lvl1_opened_door, 770, 252, NULL);
+					}
+
+					switch (lvl1_event.keyboard.keycode)
+					{
+					case ALLEGRO_KEY_LEFT:
+					{
+						printf("left\n");
+						if (x_position - 20 >= 35)
+						{
+							x_position = x_position - 20;
+						}
+						break;
+					}
+					case ALLEGRO_KEY_RIGHT:
+					{
+						printf("right\n");
+						if (x_position + 20 <= 1135)
+						{
+							x_position = x_position + 20;
+						}
+						break;
+					}
+					case ALLEGRO_KEY_UP:
+					{
+						printf("up\n");
+
+
+						y_position = y_position - 34;
+
+						break;
+					}
+					}
+				}
+				al_draw_bitmap(lvl1_champion, x_position, y_position, NULL);
 
 
 
@@ -643,10 +745,38 @@ int main()
 
 
 
-	}
+				printf("x: %d\n", mouse_x);
+				printf("y: %d\n", mouse_y);
+				printf("x_position: %d\n", x_position);
+				printf("y_position: %d\n", y_position);
+				al_flip_display();
+			} //while end lvl 1 = false
+
+		} //click lvl1=true
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	} // click ng=true
 	system("pause");
 	return 0;
 }
