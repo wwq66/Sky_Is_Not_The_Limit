@@ -7,6 +7,10 @@ int const menu_screen_w = 800;
 int const menu_screen_h = 450;
 int const tutorial_screen_w = 1250;
 int const tutorial_screen_h = 650;
+int const new_game_choose_w = 800;
+int const new_game_choose_h = 450;
+int const lvls_screen_w = 1250;
+int const lvls_screen_h = 650;
 
 int main()
 {
@@ -124,6 +128,11 @@ int main()
 			if (mouse_over_t == true)
 			{
 				click_t = true;
+				exit_menu = true;
+			}
+			if (mouse_over_ng == true)
+			{
+				click_ng = true;
 				exit_menu = true;
 			}
 		}
@@ -413,6 +422,231 @@ int main()
 		al_destroy_display(tutorial_display);
 		//al_destroy_event_queue(tutorial_queue);
 	}
+
+	if (click_ng == true)
+	{
+		al_destroy_bitmap(menu_logo);
+		al_destroy_font(font_choose_menu);
+		al_destroy_font(font_main_menu);
+		al_destroy_display(menu_display);
+
+		ALLEGRO_DISPLAY *new_game_choose_display = al_create_display(new_game_choose_w, new_game_choose_h);
+		if (!new_game_choose_display)
+		{
+			printf("Failed to create new game choose display!\n");
+			return 1;
+		}
+
+		ALLEGRO_BITMAP *new_game_choose_menu = al_load_bitmap("choosemenu.png");
+
+		ALLEGRO_FONT *font_new_game_choose_menu = al_load_font("calibri.ttf", 35, ALLEGRO_ALIGN_CENTER);
+
+		bool exit_choose_menu = false;
+		bool mouse_over_lvl1 = false;
+		bool mouse_over_lvl2 = false;
+		bool mouse_over_lvl3 = false;
+		bool mouse_over_lvl4 = false;
+		bool mouse_over_lvl5 = false;
+		bool click_lvl1 = false;
+		bool click_lvl2 = false;
+		bool click_lvl3 = false;
+		bool click_lvl4 = false;
+		bool click_lvl5 = false;
+		int r_lvl1 = 255;
+		int r_lvl2 = 255;
+		int r_lvl3 = 255;
+		int r_lvl4 = 255;
+		int r_lvl5 = 255;
+		int g_lvl1 = 255;
+		int g_lvl2 = 255;
+		int g_lvl3 = 255;
+		int g_lvl4 = 255;
+		int g_lvl5 = 255;
+		int b_lvl1 = 255;
+		int b_lvl2 = 255;
+		int b_lvl3 = 255;
+		int b_lvl4 = 255;
+		int b_lvl5 = 255;
+
+		while (!exit_choose_menu)
+		{
+			ALLEGRO_EVENT_QUEUE *new_game_choose_menu_queue = al_create_event_queue();
+			al_register_event_source(new_game_choose_menu_queue, al_get_mouse_event_source());
+
+			ALLEGRO_EVENT new_game_choose_menu_event;
+			al_wait_for_event(new_game_choose_menu_queue, &new_game_choose_menu_event);
+
+			if (new_game_choose_menu_event.type == ALLEGRO_EVENT_MOUSE_AXES)
+			{
+				mouse_x = new_game_choose_menu_event.mouse.x;
+				mouse_y = new_game_choose_menu_event.mouse.y;
+			
+				if ((mouse_y >= 195) && (mouse_y <= 230) && (mouse_x >= 355) && (mouse_x <= 445))
+				{
+					r_lvl1 = 20;
+					g_lvl1 = 167;
+					b_lvl1 = 230;
+					mouse_over_lvl1 = true;
+				}
+				else
+				{
+					r_lvl1 = 255;
+					g_lvl1 = 255;
+					b_lvl1 = 255;
+					mouse_over_lvl1 = false;
+				}
+
+				if ((mouse_y >= 240) && (mouse_y <= 275) && (mouse_x >= 355) && (mouse_x <= 445))
+				{
+					r_lvl2 = 20;
+					g_lvl2 = 167;
+					b_lvl2 = 230;
+					mouse_over_lvl2 = true;
+				}
+				else
+				{
+					r_lvl2 = 255;
+					g_lvl2 = 255;
+					b_lvl2 = 255;
+					mouse_over_lvl2 = false;
+				}
+
+				if ((mouse_y >= 285) && (mouse_y <= 315) && (mouse_x >= 355) && (mouse_x <= 445))
+				{
+					r_lvl3 = 20;
+					g_lvl3 = 167;
+					b_lvl3 = 230;
+					mouse_over_lvl3 = true;
+				}
+				else
+				{
+					r_lvl3 = 255;
+					g_lvl3 = 255;
+					b_lvl3 = 255;
+					mouse_over_lvl3 = false;
+				}
+			
+				if ((mouse_y >= 325) && (mouse_y <= 365) && (mouse_x >= 355) && (mouse_x <= 445))
+				{
+					r_lvl4 = 20;
+					g_lvl4 = 167;
+					b_lvl4 = 230;
+					mouse_over_lvl4 = true;
+				}
+				else
+				{
+					r_lvl4 = 255;
+					g_lvl4 = 255;
+					b_lvl4 = 255;
+					mouse_over_lvl4 = false;
+				}
+
+				if ((mouse_y >= 375) && (mouse_y <= 405) && (mouse_x >= 355) && (mouse_x <= 445))
+				{
+					r_lvl5 = 20;
+					g_lvl5 = 167;
+					b_lvl5 = 230;
+					mouse_over_lvl5 = true;
+				}
+				else
+				{
+					r_lvl5 = 255;
+					g_lvl5 = 255;
+					b_lvl5 = 255;
+					mouse_over_lvl5 = false;
+				}
+			}
+
+			if (new_game_choose_menu_event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
+			{
+				if (mouse_over_lvl1 == true)
+				{
+					click_lvl1 = true;
+					exit_choose_menu = true;
+				}
+
+				if (mouse_over_lvl2 == true)
+				{
+					click_lvl2 = true;
+					exit_choose_menu = true;
+				}
+
+				if (mouse_over_lvl3 == true)
+				{
+					click_lvl3 = true;
+					exit_choose_menu = true;
+				}
+
+				if (mouse_over_lvl4 == true)
+				{
+					click_lvl4 = true;
+					exit_choose_menu = true;
+				}
+
+				if (mouse_over_lvl5 == true)
+				{
+					click_lvl5 = true;
+					exit_choose_menu = true;
+				}
+			}
+			printf("x: %d\n", mouse_x);
+			printf("y: %d\n", mouse_y);
+			al_clear_to_color(al_map_rgb(0, 0, 0));
+			al_draw_bitmap(new_game_choose_menu, 0, 0, NULL);
+			al_draw_text(font_new_game_choose_menu, al_map_rgb(r_lvl1, g_lvl1, b_lvl1), new_game_choose_w / 2, 200, ALLEGRO_ALIGN_CENTER, "level 1");
+			al_draw_text(font_new_game_choose_menu, al_map_rgb(r_lvl2, g_lvl2, b_lvl2), new_game_choose_w / 2, 240, ALLEGRO_ALIGN_CENTER, "level 2");
+			al_draw_text(font_new_game_choose_menu, al_map_rgb(r_lvl3, g_lvl3, b_lvl3), new_game_choose_w / 2, 280, ALLEGRO_ALIGN_CENTER, "level 3");
+			al_draw_text(font_new_game_choose_menu, al_map_rgb(r_lvl4, g_lvl4, b_lvl4), new_game_choose_w / 2, 320, ALLEGRO_ALIGN_CENTER, "level 4");
+			al_draw_text(font_new_game_choose_menu, al_map_rgb(r_lvl5, g_lvl5, b_lvl5), new_game_choose_w / 2, 360, ALLEGRO_ALIGN_CENTER, "level 5");
+			al_flip_display();
+		}
+
+		if (click_lvl1 == true)
+		{
+			al_destroy_bitmap(new_game_choose_menu);
+			al_destroy_font(font_new_game_choose_menu);
+			al_destroy_display(new_game_choose_display);
+
+			ALLEGRO_DISPLAY *lvl1_display = al_create_display(lvls_screen_w, lvls_screen_h);
+			if (!lvl1_display)
+			{
+				printf("Failed to create new level display!\n");
+				return 1;
+			}
+			
+			ALLEGRO_BITMAP *lvl1_background = al_load_bitmap("tut_background.png");
+
+
+
+
+
+
+
+
+
+
+
+			al_clear_to_color(al_map_rgb(0, 0, 0));
+			al_draw_bitmap(lvl1_background, 0, 0, NULL);
+			al_flip_display();
+
+		}
+		
+		
+	
+
+
+
+
+
+
+
+
+
+	}
+
+
+
 	system("pause");
 	return 0;
 }
