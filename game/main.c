@@ -1023,6 +1023,32 @@ int main()
 			al_destroy_bitmap(lvl1_pickaxe);
 			al_destroy_display(lvl1_display);
 		} //click lvl1=true
+
+
+		if (click_lvl2 == true)
+		{
+			al_destroy_bitmap(new_game_choose_menu);
+			al_destroy_font(font_new_game_choose_menu);
+			al_destroy_display(new_game_choose_display);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		} // click lvl1 =true
 	} // click ng=true
 	system("pause");
 	return 0;
