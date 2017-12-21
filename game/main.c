@@ -1101,6 +1101,13 @@ int main()
 			al_draw_bitmap(lvl2_bucket, 85, 440, NULL); //bucket 2
 			al_draw_bitmap(lvl2_bucket, 690, 200, NULL); //bucket 3
 
+			ALLEGRO_BITMAP *lvl2_fire = al_load_bitmap("fire_lvls.png");
+			al_draw_bitmap(lvl2_fire, 850, 372, NULL);
+			al_draw_bitmap(lvl2_fire, 260, 252, NULL);
+			al_draw_bitmap(lvl2_fire, 890, 15, NULL);
+
+			ALLEGRO_BITMAP *lvl2_ash = al_load_bitmap("ash_lvls.png");
+
 			int x_position = 65;
 			int y_position = 555;
 			bool left_key_locked = false;
@@ -1115,6 +1122,13 @@ int main()
 			bool door_opened = false;
 			bool artifact_owned = false;
 			bool champion_over_portal = false;
+			bool bucket_owned = false;
+			bool bucket1_exists = true;
+			bool bucket2_exists = true;
+			bool bucket3_exists = true;
+			bool fire1_burning = true;
+			bool fire2_burning = true;
+			bool fire3_burning = true;
 			bool end_of_lvl2 = false;
 
 			while (!end_of_lvl2)
@@ -1150,9 +1164,22 @@ int main()
 					al_draw_bitmap(lvl2_ladder, 565, 132, NULL);
 					al_draw_bitmap(lvl2_ladder, 805, 132, NULL);
 					al_draw_bitmap(lvl2_ladder, 805, 252, NULL);
-					al_draw_bitmap(lvl2_bucket, 630, 560, NULL); //bucket 1
-					al_draw_bitmap(lvl2_bucket, 85, 440, NULL); //bucket 2
-					al_draw_bitmap(lvl2_bucket, 690, 200, NULL); //bucket 3
+					if (bucket1_exists == true)
+					{
+						al_draw_bitmap(lvl2_bucket, 630, 560, NULL); //bucket 1
+					}
+					if (bucket2_exists == true)
+					{
+						al_draw_bitmap(lvl2_bucket, 85, 440, NULL); //bucket 2
+					}
+					if (bucket3_exists == true)
+					{
+						al_draw_bitmap(lvl2_bucket, 690, 200, NULL); //bucket 3
+					}
+					if (bucket_owned == true)
+					{
+						al_draw_bitmap(lvl2_bucket, 15, 50, NULL);
+					}
 					if (stone1_destroyed == false)
 					{
 						al_draw_bitmap(lvl2_stone, 150, 372, NULL);
@@ -1209,6 +1236,30 @@ int main()
 					{
 						al_draw_bitmap(lvl2_opened_portal, 1080, 35, NULL);
 					}
+					if (fire1_burning == true)
+					{
+						al_draw_bitmap(lvl2_fire, 850, 372, NULL);
+					}
+					else
+					{
+						al_draw_bitmap(lvl2_ash, 850, 372, NULL);
+					}
+					if (fire2_burning == true)
+					{
+						al_draw_bitmap(lvl2_fire, 260, 252, NULL);
+					}
+					else
+					{
+						al_draw_bitmap(lvl2_ash, 260, 252, NULL);
+					}
+					if (fire3_burning == true)
+					{
+						al_draw_bitmap(lvl2_fire, 890, 15, NULL);
+					}
+					else
+					{
+						al_draw_bitmap(lvl2_ash, 890, 15, NULL);
+					}
 					switch (lvl2_event.keyboard.keycode)
 					{
 					case ALLEGRO_KEY_LEFT:
@@ -1251,25 +1302,332 @@ int main()
 				}//if event key down
 				al_draw_bitmap(lvl2_champion, x_position, y_position, NULL);
 
+				//LEFT KEY LOCKED
+				if (x_position == 65)
+				{
+					left_key_locked = true;
+				}
+				else if ((x_position == 465) && (y_position == 555))
+				{
+					left_key_locked = true; // przep
+				}
+				else if ((x_position == 905) && (y_position == 555))
+				{
+					left_key_locked = true; // przep
+				}
+				else if ((x_position == 905) && (y_position == 435)&&(fire1_burning==true))
+				{
+					left_key_locked = true; // fire1
+				}
+				else if ((x_position == 185) && (y_position == 435)&&(stone1_destroyed==false))
+				{
+					left_key_locked = true; // stone1
+				}
+				else if ((x_position == 325) && (y_position == 315)&&(fire2_burning==true))
+				{
+					left_key_locked = true; // fire2
+				}
+				else if ((x_position == 1065) && (y_position == 315)&&(door_opened==false))
+				{
+					left_key_locked = true; // door
+				}
+				else if ((x_position == 745) && (y_position == 315))
+				{
+					left_key_locked = true; // przep
+				}
+				else if ((x_position == 545) && (y_position == 195))
+				{
+					left_key_locked = true; // przep
+				}
+				else if ((x_position == 365) && (y_position == 75)&&(stone2_destroyed==false))
+				{
+					left_key_locked = true; // stone
+				}
+				else if ((x_position == 765) && (y_position == 75))
+				{
+					left_key_locked = true; // przep
+				}
+				else if ((x_position == 945) && (y_position == 75)&&(fire3_burning==true))
+				{
+					left_key_locked = true; // fire3
+				}
+				else
+				{
+					left_key_locked = false;
+				}
 
+				//RIGHT KEY LOCKED
+				if (x_position == 1145)
+				{
+					right_key_locked = true;
+				}
+				else if ((x_position == 245) && (y_position == 555))
+				{
+					right_key_locked = true; //przep
+				}
+				else if ((x_position == 685) && (y_position == 555))
+				{
+					right_key_locked = true; //przep
+				}
+				else if ((x_position == 105) && (y_position == 435)&&(stone1_destroyed==false))
+				{
+					right_key_locked = true; //stone
+				}
+				else if ((x_position == 805) && (y_position == 435)&&(fire1_burning==true))
+				{
+					right_key_locked = true; //fire1
+				}
+				else if ((x_position == 985) && (y_position == 315)&&(door_opened==false))
+				{
+					right_key_locked = true; //door
+				}
+				else if ((x_position == 205) && (y_position == 315)&&(fire2_burning==true))
+				{
+					right_key_locked = true; //fire2
+				}
+				else if ((x_position == 165) && (y_position == 195))
+				{
+					right_key_locked = true; //przep
+				}
+				else if ((x_position == 845) && (y_position == 195))
+				{
+					right_key_locked = true; //przep
+				}
+				else if ((x_position == 265) && (y_position == 75)&&(stone2_destroyed==false))
+				{
+					right_key_locked = true; //stone
+				}
+				else if ((x_position == 605) && (y_position == 75))
+				{
+					right_key_locked = true; //przep
+				}
+				else if ((x_position == 845) && (y_position == 75)&&(fire3_burning==true))
+				{
+					right_key_locked = true; //fire3
+				}
+				else if ((x_position == 985) && (y_position == 435))
+				{
+					right_key_locked = true; //przep
+				}
+				else if ((x_position == 405) && (y_position == 315))
+				{
+					right_key_locked = true; //przep
+				}
+				else
+				{
+					right_key_locked = false;
+				}
 
+				//CHAMPION ON LADDER
+				if ((y_position == 555) || (y_position == 435) || (y_position == 315) || (y_position == 195) || (y_position == 75))
+				{
+					champion_on_ladder = false;
+				}
+				else
+				{
+					champion_on_ladder = true;
+				}
 
+				//UP KEY LOCKED
+				if ((x_position == 205) && (y_position > 435) && (y_position <= 555))
+				{
+				up_key_locked = false;
+				}
+				else if ((x_position == 505) && (y_position > 435) && (y_position <= 555))
+				{
+				up_key_locked = false;
+				}
+				else if ((x_position == 925) && (y_position > 435) && (y_position <= 555))
+				{
+				up_key_locked = false;
+				}
+				else if ((x_position == 365) && (y_position > 315) && (y_position <= 435))
+				{
+				up_key_locked = false;
+				}
+				else if ((x_position == 105) && (y_position > 195) && (y_position <= 315))
+				{
+				up_key_locked = false;
+				}
+				else if ((x_position == 805) && (y_position > 195) && (y_position <= 315))
+				{
+				up_key_locked = false;
+				}
+				else if ((x_position == 105) && (y_position > 75) && (y_position <= 195))
+				{
+				up_key_locked = false;
+				}
+				else if ((x_position == 565) && (y_position > 75) && (y_position <= 195))
+				{
+				up_key_locked = false;
+				}
+				else if ((x_position == 805) && (y_position > 75) && (y_position <= 195))
+				{
+				up_key_locked = false;
+				}
+				else
+				{
+				up_key_locked = true;
+				}
 
+				//DOWN KEY LOCKED
+				if ((x_position == 205) && (y_position >= 435) && (y_position < 555))
+				{
+				down_key_locked = false;
+				}
+				else if ((x_position == 505) && (y_position >= 435) && (y_position < 555))
+				{
+				down_key_locked = false;
+				}
+				else if ((x_position == 925) && (y_position >= 435) && (y_position < 555))
+				{
+				down_key_locked = false;
+				}
+				else if ((x_position == 365) && (y_position >= 315) && (y_position < 435))
+				{
+				down_key_locked = false;
+				}
+				else if ((x_position == 105) && (y_position >= 195) && (y_position < 315))
+				{
+				down_key_locked = false;
+				}
+				else if ((x_position == 805) && (y_position >= 195) && (y_position < 315))
+				{
+				down_key_locked = false;
+				}
+				else if ((x_position == 105) && (y_position >= 75) && (y_position < 195))
+				{
+				down_key_locked = false;
+				}
+				else if ((x_position == 565) && (y_position >= 75) && (y_position < 195))
+				{
+				down_key_locked = false;
+				}
+				else if ((x_position == 805) && (y_position >= 75) && (y_position < 195))
+				{
+				down_key_locked = false;
+				}
+				else
+				{
+				down_key_locked = true;
+				}
 
+				//bucket1
+				if ((bucket1_exists == true) && (x_position == 625) && (y_position == 555))
+				{
+				bucket1_exists = false;
+				bucket_owned = true;
+				}
 
+				//fire1
+				if ((x_position == 805) && (y_position == 435) && (bucket_owned == true))
+				{
+				fire1_burning = false;
+				bucket_owned = false;
+				}
 
+				//pick owned
+				if ((x_position == 1065) && (y_position == 555))
+				{
+				pick_owned = true;
+				}
 
+				//stone destroyed
+				if ((x_position == 185) && (y_position == 435) && (pick_owned == true))
+				{
+					stone1_destroyed = true;
+				}
 
+				//bucket2
+				if ((bucket2_exists == true) && (x_position == 85) && (y_position == 435))
+				{
+					bucket2_exists = false;
+					bucket_owned = true;
+				}
 
+				//fire2
+				if ((bucket_owned == true) && (x_position == 325) && (y_position == 315))
+				{
+					fire2_burning = false;
+					bucket_owned = false;
+				}
 
+				//stone
+				if ((pick_owned == true) && (x_position == 265) && (y_position == 75))
+				{
+					stone2_destroyed = true;
+				}
 
+				//bucket3
+				if ((bucket3_exists == true) && (x_position == 685) && (y_position == 195))
+				{
+					bucket3_exists = false;
+					bucket_owned = true;
+				}
+
+				//fire3
+				if ((bucket_owned == true) && (x_position == 845) && (y_position == 75))
+				{
+					fire3_burning = false;
+					bucket_owned = false;
+				}
+
+				//key owned
+				if ((x_position == 1025) && (y_position == 75))
+				{
+					key_owned = true;
+				}
+
+				//door opened
+				if ((key_owned == true) && (x_position == 985) && (y_position == 315))
+				{
+					door_opened = true;
+				}
+
+				//artifact owned
+				if ((x_position == 1085) && (y_position == 315))
+				{
+					artifact_owned = true;
+				}
+
+				//champion over portal
+				if ((artifact_owned == true) && (x_position == 1085) && (y_position == 75))
+				{
+					champion_over_portal = true;
+				}
+
+				if (champion_over_portal == true)
+				{
+					end_of_lvl2 = true;
+				}
 
 				printf("x: %d\n", mouse_x);
 				printf("y: %d\n", mouse_y);
 				printf("x_position: %d\n", x_position);
 				printf("y_position: %d\n", y_position);
 				al_flip_display();
-			}//while end of lvl2 =false
+			}//while end of lvl2 = false
+			al_destroy_bitmap(lvl2_artifact);
+			al_destroy_bitmap(lvl2_background);
+			al_destroy_bitmap(lvl2_ash);
+			al_destroy_bitmap(lvl2_bucket);
+			al_destroy_bitmap(lvl2_fire);
+			al_destroy_bitmap(lvl2_ground_1);
+			al_destroy_bitmap(lvl2_ground_2);
+			al_destroy_bitmap(lvl2_ground_3);
+			al_destroy_bitmap(lvl2_ground_4);
+			al_destroy_bitmap(lvl2_ground_5);
+			al_destroy_bitmap(lvl2_champion);
+			al_destroy_bitmap(lvl2_closed_door);
+			al_destroy_bitmap(lvl2_closed_portal);
+			al_destroy_bitmap(lvl2_destroyed_stone);
+			al_destroy_bitmap(lvl2_stone);
+			al_destroy_bitmap(lvl2_key);
+			al_destroy_bitmap(lvl2_ladder);
+			al_destroy_bitmap(lvl2_opened_door);
+			al_destroy_bitmap(lvl2_opened_portal);
+			al_destroy_bitmap(lvl2_pickaxe);
+			al_destroy_display(lvl2_display);
 		} // click lvl2 =true
 	} // click ng=true
 	system("pause");
