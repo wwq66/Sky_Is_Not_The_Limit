@@ -1629,6 +1629,106 @@ int main()
 			al_destroy_bitmap(lvl2_pickaxe);
 			al_destroy_display(lvl2_display);
 		} // click lvl2 =true
+
+		if (click_lvl3 == true)
+		{
+			al_destroy_bitmap(new_game_choose_menu);
+			al_destroy_font(font_new_game_choose_menu);
+			al_destroy_display(new_game_choose_display);
+
+			ALLEGRO_DISPLAY *lvl3_display = al_create_display(lvls_screen_w, lvls_screen_h);
+			if (!lvl3_display)
+			{
+				printf("Failed to create lvl 3 display!\n");
+				return 1;
+			}
+
+			al_clear_to_color(al_map_rgb(0, 0, 0));
+
+			ALLEGRO_BITMAP *lvl3_background = al_load_bitmap("tut_background.png");
+			al_draw_bitmap(lvl3_background, 0, 0, NULL);
+			
+			//******************ADD A COMMIT!********************
+
+
+
+
+
+
+			int x_position = 65;
+			int y_position = 555;
+			bool left_key_locked = false;
+			bool right_key_locked = false;
+			bool up_key_locked = false;
+			bool down_key_locked = false;
+			bool champion_on_ladder = false;
+			bool pick_owned = false;
+		//	bool stone1_destroyed = false;
+		//	bool stone2_destroyed = false;
+			bool key_owned = false;
+			bool door_opened = false;
+			bool artifact_owned = false;
+			bool champion_over_portal = false;
+			bool bucket_owned = false;
+		//	bool bucket1_exists = true;
+		//	bool bucket2_exists = true;
+		//	bool bucket3_exists = true;
+		//	bool fire1_burning = true;
+		//	bool fire2_burning = true;
+		//	bool fire3_burning = true;
+			bool end_of_lvl3 = false;
+
+			while (!end_of_lvl3)
+			{
+				ALLEGRO_EVENT_QUEUE *lvl3_queue = al_create_event_queue();
+				al_register_event_source(lvl3_queue, al_get_keyboard_event_source());
+				al_register_event_source(lvl3_queue, al_get_mouse_event_source());
+
+				ALLEGRO_EVENT lvl3_event;
+				al_wait_for_event(lvl3_queue, &lvl3_event);
+
+				if (lvl3_event.type == ALLEGRO_EVENT_MOUSE_AXES)
+				{
+					mouse_x = lvl3_event.mouse.x;
+					mouse_y = lvl3_event.mouse.y;
+				}
+			
+				if (lvl3_event.type == ALLEGRO_EVENT_KEY_DOWN)
+				{
+					al_clear_to_color(al_map_rgb(0, 0, 0));
+
+
+
+
+				} //event key down
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+				printf("x: %d\n", mouse_x);
+				printf("y: %d\n", mouse_y);
+				printf("x_position: %d\n", x_position);
+				printf("y_position: %d\n", y_position);
+				al_flip_display();
+			}//while end of lvl3 = false
+		}//click lvl3 = true
 	} // click ng=true
 	system("pause");
 	return 0;
