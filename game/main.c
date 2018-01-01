@@ -657,7 +657,7 @@ int main()
 			al_draw_bitmap(lvl1_pickaxe, 95, 440, NULL);
 
 			ALLEGRO_BITMAP *lvl1_closed_portal = al_load_bitmap("closed_portal_lvls.png");
-			al_draw_bitmap(lvl1_closed_portal, 1050, 35, NULL);
+			al_draw_bitmap(lvl1_closed_portal, 1050, 15, NULL);
 
 			ALLEGRO_BITMAP *lvl1_destroyed_stone = al_load_bitmap("destroyed_stone_lvls.png");
 
@@ -711,11 +711,11 @@ int main()
 					al_draw_bitmap(lvl1_ladder, 925, 132, NULL);
 					if (artifact_owned == false)
 					{
-						al_draw_bitmap(lvl1_closed_portal, 1050, 35, NULL);
+						al_draw_bitmap(lvl1_closed_portal, 1050, 15, NULL);
 					}
 					else
 					{
-						al_draw_bitmap(lvl1_opened_portal, 1050, 35, NULL);
+						al_draw_bitmap(lvl1_opened_portal, 1050, 15, NULL);
 					}
 					if (door_opened == false)
 					{
@@ -1088,7 +1088,7 @@ int main()
 			al_draw_bitmap(lvl2_pickaxe, 1060, 560, NULL);
 
 			ALLEGRO_BITMAP *lvl2_closed_portal = al_load_bitmap("closed_portal_lvls.png");
-			al_draw_bitmap(lvl2_closed_portal, 1080, 35, NULL);
+			al_draw_bitmap(lvl2_closed_portal, 1080, 15, NULL);
 
 			ALLEGRO_BITMAP *lvl2_destroyed_stone = al_load_bitmap("destroyed_stone_lvls.png");
 			al_draw_bitmap(lvl2_destroyed_stone, 150, 372, NULL); // stone 1
@@ -1230,11 +1230,11 @@ int main()
 					}
 					if (artifact_owned == false)
 					{
-						al_draw_bitmap(lvl2_closed_portal, 1080, 35, NULL);
+						al_draw_bitmap(lvl2_closed_portal, 1080, 15, NULL);
 					}
 					else
 					{
-						al_draw_bitmap(lvl2_opened_portal, 1080, 35, NULL);
+						al_draw_bitmap(lvl2_opened_portal, 1080, 15, NULL);
 					}
 					if (fire1_burning == true)
 					{
