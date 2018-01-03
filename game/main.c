@@ -1696,7 +1696,6 @@ int main()
 			al_draw_bitmap(lvl3_closed_portal, 1080, 15, NULL);
 
 			ALLEGRO_BITMAP *lvl3_destroyed_stone = al_load_bitmap("destroyed_stone_lvls.png");
-			
 
 			ALLEGRO_BITMAP *lvl3_opened_portal = al_load_bitmap("opened_portal_lvls.png");
 
@@ -1713,7 +1712,8 @@ int main()
 
 			ALLEGRO_BITMAP *lvl3_destroyed_spidersweb = al_load_bitmap("destroyed_spidersweb_lvls.png");
 			
-
+			ALLEGRO_BITMAP *lvl3_torch = al_load_bitmap("torch_lvls.png");
+			al_draw_bitmap(lvl3_torch, 210, 80, NULL);
 
 			int x_position = 65;
 			int y_position = 555;
@@ -1723,19 +1723,17 @@ int main()
 			bool down_key_locked = false;
 			bool champion_on_ladder = false;
 			bool pick_owned = false;
-		//	bool stone1_destroyed = false;
-		//	bool stone2_destroyed = false;
+			bool stone_destroyed = false;
 			bool key_owned = false;
 			bool door_opened = false;
 			bool artifact_owned = false;
 			bool champion_over_portal = false;
 			bool bucket_owned = false;
-		//	bool bucket1_exists = true;
-		//	bool bucket2_exists = true;
-		//	bool bucket3_exists = true;
-		//	bool fire1_burning = true;
-		//	bool fire2_burning = true;
-		//	bool fire3_burning = true;
+			bool torch_owned = false;
+			bool bucket_exists = true;
+			bool torch_exists = true;
+			bool fire_burning = true;
+			bool spidersweb_destroyed = false;
 			bool end_of_lvl3 = false;
 
 			while (!end_of_lvl3)
@@ -1773,7 +1771,101 @@ int main()
 					al_draw_bitmap(lvl3_ladder, 285, 132, NULL);
 					al_draw_bitmap(lvl3_ladder, 625, 132, NULL);
 
-					
+					if (bucket_exists == true)
+					{
+						al_draw_bitmap(lvl3_bucket, 595, 560, NULL);
+					}
+
+					if (bucket_owned == true)
+					{
+						al_draw_bitmap(lvl3_bucket, 15, 50, NULL);
+					}
+
+					if (pick_owned == false)
+					{
+						al_draw_bitmap(lvl3_pickaxe, 935, 560, NULL);
+					}
+					else
+					{
+						al_draw_bitmap(lvl3_pickaxe, 15, 15, NULL);
+					}
+
+					if (fire_burning == true)
+					{
+						al_draw_bitmap(lvl3_fire, 885, 372, NULL);
+					}
+					else
+					{
+						al_draw_bitmap(lvl3_ash, 885, 372, NULL);
+					}
+
+					if (spidersweb_destroyed == false)
+					{
+						al_draw_bitmap(lvl3_spidersweb, 450, 252, NULL);
+					}
+					else
+					{
+						al_draw_bitmap(lvl3_destroyed_spidersweb, 450, 252, NULL);
+					}
+
+					if (stone_destroyed == false)
+					{
+						al_draw_bitmap(lvl3_stone, 880, 132, NULL);
+					}
+					else
+					{
+						al_draw_bitmap(lvl3_destroyed_stone, 880, 132, NULL);
+					}
+
+					if (torch_exists == true)
+					{
+						al_draw_bitmap(lvl3_torch, 210, 80, NULL);
+					}
+
+					if (torch_owned == true)
+					{
+						al_draw_bitmap(lvl3_torch, 15, 50, NULL);
+					}
+
+					if (door_opened == false)
+					{
+						al_draw_bitmap(lvl3_closed_door, 120, 15, NULL);
+					}
+					else
+					{
+						al_draw_bitmap(lvl3_opened_door, 120, 15, NULL);
+					}
+
+					if (artifact_owned == false)
+					{
+						al_draw_bitmap(lvl3_artifact, 60, 80, NULL);
+					}
+					else
+					{
+						al_draw_bitmap(lvl3_artifact, 105, 15, NULL);
+					}
+
+					if (artifact_owned == false)
+					{
+						al_draw_bitmap(lvl3_closed_portal, 1080, 15, NULL);
+					}
+					else
+					{
+						al_draw_bitmap(lvl3_opened_portal, 1080, 15, NULL);
+					}
+
+					if (key_owned == false)
+					{
+						al_draw_bitmap(lvl3_key, 750, 80, NULL);
+					}
+					else
+					{
+						al_draw_bitmap(lvl3_key, 60, 15, NULL);
+					}
+
+
+
+
 
 
 					switch (lvl3_event.keyboard.keycode)
@@ -1820,24 +1912,204 @@ int main()
 				} //event key down
 				al_draw_bitmap(lvl3_champion, x_position, y_position, NULL);
 			
+			//LEFT KEY LOCKED
+				if (x_position == 65)
+				{
+					left_key_locked = true;
+				}
+				else if ((x_position == 405) && (y_position == 555))
+				{
+					left_key_locked = true;
+				}
+				else if ((x_position==865)&&(y_position==555))
+				{
+					left_key_locked = true;
+				}
+				else if ((x_position==405)&&(y_position==435))
+				{
+					left_key_locked = true;
+				}
+				else if ((x_position==1005)&&(y_position==315))
+				{
+					left_key_locked = true;
+				}
+				else if ((x_position == 925) && (y_position == 195) && (stone_destroyed == false))
+				{
+					left_key_locked = true;
+				}
+				else if ((x_position==565)&&(y_position==195))
+				{
+					left_key_locked = true;
+				}
+				else if ((x_position == 565) && (y_position == 75))
+				{
+					left_key_locked = true;
+				}
+				else if((x_position==165)&&(y_position==75)&&(door_opened==false))
+				{
+					left_key_locked = true;
+				}
+				else 
+				{
+					left_key_locked = false;
+				}
 			
+			//RIGHT KEY LOCKED
+				if ((x_position == 245) && (y_position == 555))
+				{
+					right_key_locked = true;
+				}
+				else if ((x_position == 685) && (y_position == 555))
+				{
+					right_key_locked = true;
+				}
+				else if (x_position==1145)
+				{
+					right_key_locked = true;
+				}
+				else if ((x_position == 325) && (y_position == 435))
+				{
+					right_key_locked = true;
+				}
+				else if ((x_position == 825) && (y_position == 435)&&(fire_burning==true))
+				{
+					right_key_locked = true;
+				}
+				else if ((x_position == 385) && (y_position == 315)&&(spidersweb_destroyed==false))
+				{
+					right_key_locked = true;
+				}
+				else if ((x_position == 765) && (y_position == 315))
+				{
+					right_key_locked = true;
+				}
+				else if ((x_position == 325) && (y_position == 195))
+				{
+					right_key_locked = true;
+				}
+				else if ((x_position == 325) && (y_position == 75))
+				{
+					right_key_locked = true;
+				}
+				else
+				{
+					right_key_locked = false;
+				}
 			
+			// UP KEY LOCKED
+				if ((x_position == 205) && (y_position > 435) && (y_position <= 555))
+				{
+					up_key_locked = false;
+				}
+				else if ((x_position == 465) && (y_position > 435) && (y_position <= 555))
+				{
+					up_key_locked = false;
+				}
+				else if ((x_position == 1065) && (y_position > 435) && (y_position <= 555))
+				{
+					up_key_locked = false;
+				}
+				else if ((x_position == 285) && (y_position > 315) && (y_position <= 435))
+				{
+					up_key_locked = false;
+				}
+				else if ((x_position == 705) && (y_position > 315) && (y_position <= 435))
+				{
+					up_key_locked = false;
+				}
+				else if ((x_position == 1065) && (y_position > 315) && (y_position <= 435))
+				{
+					up_key_locked = false;
+				}
+				else if ((x_position == 105) && (y_position > 195) && (y_position <= 315))
+				{
+					up_key_locked = false;
+				}
+				else if ((x_position == 1065) && (y_position > 195) && (y_position <= 315))
+				{
+					up_key_locked = false;
+				}
+				else if ((x_position == 285) && (y_position > 75) && (y_position <= 195))
+				{
+					up_key_locked = false;
+				}
+				else if ((x_position == 625) && (y_position > 75) && (y_position <= 195))
+				{
+					up_key_locked = false;
+				}
+				else
+				{
+					up_key_locked = true;
+				}
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+			//CHAMPION ON LADDER
+				if ((y_position == 555) || (y_position == 435) || (y_position == 315) || (y_position == 195) || (y_position == 75))
+				{
+					champion_on_ladder = false;
+				}
+				else
+				{
+					champion_on_ladder = true;
+				}
+
+			//DOWN KEY LOCKED
+				if ((x_position == 205) && (y_position >= 435) && (y_position < 555))
+				{
+					down_key_locked = false;
+				}
+				else if ((x_position == 465) && (y_position >= 435) && (y_position < 555))
+				{
+					down_key_locked = false;
+				}
+				else if ((x_position == 1065) && (y_position >= 435) && (y_position < 555))
+				{
+					down_key_locked = false;
+				}
+				else if ((x_position == 285) && (y_position >= 315) && (y_position < 435))
+				{
+					down_key_locked = false;
+				}
+				else if ((x_position == 705) && (y_position >= 315) && (y_position < 435))
+				{
+					down_key_locked = false;
+				}
+				else if ((x_position == 1065) && (y_position >= 315) && (y_position < 435))
+				{
+					down_key_locked = false;
+				}
+				else if ((x_position == 105) && (y_position >= 195) && (y_position < 315))
+				{
+					down_key_locked = false;
+				}
+				else if ((x_position == 1065) && (y_position >= 195) && (y_position < 315))
+				{
+					down_key_locked = false;
+				}
+				else if ((x_position == 285) && (y_position >= 75) && (y_position < 195))
+				{
+					down_key_locked = false;
+				}
+				else if ((x_position == 625) && (y_position >= 75) && (y_position < 195))
+				{
+					down_key_locked = false;
+				}
+				else
+				{
+					down_key_locked = true;
+				}
+
+
+
+
+
+
+
+
+
+
+
+
+
 			
 				printf("x: %d\n", mouse_x);
 				printf("y: %d\n", mouse_y);
