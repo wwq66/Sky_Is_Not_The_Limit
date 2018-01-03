@@ -1648,11 +1648,71 @@ int main()
 			ALLEGRO_BITMAP *lvl3_background = al_load_bitmap("tut_background.png");
 			al_draw_bitmap(lvl3_background, 0, 0, NULL);
 			
-			//******************ADD A COMMIT!********************
+			ALLEGRO_BITMAP *lvl3_ground_1 = al_load_bitmap("ground_lvl3_1.png");
+			al_draw_bitmap(lvl3_ground_1, 65, 600, NULL);
 
+			ALLEGRO_BITMAP *lvl3_ground_2 = al_load_bitmap("ground_lvl3_2.png");
+			al_draw_bitmap(lvl3_ground_2, 65, 480, NULL);
 
+			ALLEGRO_BITMAP *lvl3_ground_3 = al_load_bitmap("ground_lvl3_3.png");
+			al_draw_bitmap(lvl3_ground_3, 65, 360, NULL);
 
+			ALLEGRO_BITMAP *lvl3_ground_45 = al_load_bitmap("ground_lvl3_45.png");
+			al_draw_bitmap(lvl3_ground_45, 65, 240, NULL);
+			al_draw_bitmap(lvl3_ground_45, 65, 120, NULL);
 
+			ALLEGRO_BITMAP *lvl3_champion = al_load_bitmap("champion_lvls.png");
+
+			ALLEGRO_BITMAP *lvl3_ladder = al_load_bitmap("ladder_lvls.png");
+			al_draw_bitmap(lvl3_ladder, 205, 492, NULL);
+			al_draw_bitmap(lvl3_ladder, 465, 492, NULL);
+			al_draw_bitmap(lvl3_ladder, 1065, 492, NULL);
+			al_draw_bitmap(lvl3_ladder, 285, 372, NULL);
+			al_draw_bitmap(lvl3_ladder, 705, 372, NULL);
+			al_draw_bitmap(lvl3_ladder, 1065, 372, NULL);
+			al_draw_bitmap(lvl3_ladder, 105, 252, NULL);
+			al_draw_bitmap(lvl3_ladder, 1065, 252, NULL);
+			al_draw_bitmap(lvl3_ladder, 285, 132, NULL);
+			al_draw_bitmap(lvl3_ladder, 625, 132, NULL);
+
+			ALLEGRO_BITMAP *lvl3_closed_door = al_load_bitmap("closed_door_lvls.png");
+			al_draw_bitmap(lvl3_closed_door, 120, 15, NULL);
+
+			ALLEGRO_BITMAP *lvl3_opened_door = al_load_bitmap("opened_door_lvls.png");
+
+			ALLEGRO_BITMAP *lvl3_key = al_load_bitmap("key_lvls.png");
+			al_draw_bitmap(lvl3_key, 750, 80, NULL);
+
+			ALLEGRO_BITMAP *lvl3_artifact = al_load_bitmap("artifact_lvls.png");
+			al_draw_bitmap(lvl3_artifact, 60, 80, NULL);
+
+			ALLEGRO_BITMAP *lvl3_stone = al_load_bitmap("stone_lvls.png");
+			al_draw_bitmap(lvl3_stone, 880, 132, NULL);
+
+			ALLEGRO_BITMAP *lvl3_pickaxe = al_load_bitmap("pick_lvls.png");
+			al_draw_bitmap(lvl3_pickaxe, 935, 560, NULL);
+
+			ALLEGRO_BITMAP *lvl3_closed_portal = al_load_bitmap("closed_portal_lvls.png");
+			al_draw_bitmap(lvl3_closed_portal, 1080, 15, NULL);
+
+			ALLEGRO_BITMAP *lvl3_destroyed_stone = al_load_bitmap("destroyed_stone_lvls.png");
+			
+
+			ALLEGRO_BITMAP *lvl3_opened_portal = al_load_bitmap("opened_portal_lvls.png");
+
+			ALLEGRO_BITMAP *lvl3_bucket = al_load_bitmap("bucket_lvls.png");
+			al_draw_bitmap(lvl3_bucket, 595, 560, NULL);
+
+			ALLEGRO_BITMAP *lvl3_fire = al_load_bitmap("fire_lvls.png");
+			al_draw_bitmap(lvl3_fire, 885, 372, NULL);
+
+			ALLEGRO_BITMAP *lvl3_ash = al_load_bitmap("ash_lvls.png");
+
+			ALLEGRO_BITMAP *lvl3_spidersweb = al_load_bitmap("spidersweb_lvls.png");
+			al_draw_bitmap(lvl3_spidersweb, 450, 252, NULL);
+
+			ALLEGRO_BITMAP *lvl3_destroyed_spidersweb = al_load_bitmap("destroyed_spidersweb_lvls.png");
+			
 
 
 			int x_position = 65;
@@ -1696,12 +1756,69 @@ int main()
 				if (lvl3_event.type == ALLEGRO_EVENT_KEY_DOWN)
 				{
 					al_clear_to_color(al_map_rgb(0, 0, 0));
+					al_draw_bitmap(lvl3_background, 0, 0, NULL);
+					al_draw_bitmap(lvl3_ground_1, 65, 600, NULL);
+					al_draw_bitmap(lvl3_ground_2, 65, 480, NULL);
+					al_draw_bitmap(lvl3_ground_3, 65, 360, NULL);
+					al_draw_bitmap(lvl3_ground_45, 65, 240, NULL);
+					al_draw_bitmap(lvl3_ground_45, 65, 120, NULL);
+					al_draw_bitmap(lvl3_ladder, 205, 492, NULL);
+					al_draw_bitmap(lvl3_ladder, 465, 492, NULL);
+					al_draw_bitmap(lvl3_ladder, 1065, 492, NULL);
+					al_draw_bitmap(lvl3_ladder, 285, 372, NULL);
+					al_draw_bitmap(lvl3_ladder, 705, 372, NULL);
+					al_draw_bitmap(lvl3_ladder, 1065, 372, NULL);
+					al_draw_bitmap(lvl3_ladder, 105, 252, NULL);
+					al_draw_bitmap(lvl3_ladder, 1065, 252, NULL);
+					al_draw_bitmap(lvl3_ladder, 285, 132, NULL);
+					al_draw_bitmap(lvl3_ladder, 625, 132, NULL);
+
+					
 
 
+					switch (lvl3_event.keyboard.keycode)
+					{
+					case ALLEGRO_KEY_LEFT:
+					{
+						printf("left\n");
+						if ((left_key_locked == false) && (champion_on_ladder == false))
+						{
+							x_position = x_position - 20;
+						}
+						break;
+					}
+					case ALLEGRO_KEY_RIGHT:
+					{
+						printf("right\n");
+						if ((right_key_locked == false) && (champion_on_ladder == false))
+						{
+							x_position = x_position + 20;
+						}
+						break;
+					}
+					case ALLEGRO_KEY_UP:
+					{
+						printf("up\n");
+						if (up_key_locked == false)
+						{
+							y_position = y_position - 40;
+						}
+						break;
+					}
+					case ALLEGRO_KEY_DOWN:
+					{
+						printf("down\n");
+						if (down_key_locked == false)
+						{
+							y_position = y_position + 40;
+						}
+						break;
+					}
+					}//switch
 
 
 				} //event key down
-			
+				al_draw_bitmap(lvl3_champion, x_position, y_position, NULL);
 			
 			
 			
