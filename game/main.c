@@ -200,7 +200,7 @@ int main()
 		al_draw_bitmap(artifact, 105, 295, NULL);
 
 		ALLEGRO_BITMAP *portal_closed = al_load_bitmap("portal_closed.png");
-		al_draw_bitmap(portal_closed, 1000, 45, NULL);
+		al_draw_bitmap(portal_closed, 1000, 85, NULL);
 
 		ALLEGRO_BITMAP *portal_opened = al_load_bitmap("portal_opened.png");
 
@@ -267,11 +267,11 @@ int main()
 				}
 				if (artifact_owned == false)
 				{
-					al_draw_bitmap(portal_closed, 1000, 45, NULL);
+					al_draw_bitmap(portal_closed, 1000, 85, NULL);
 				}
 				else if (artifact_owned == true)
 				{
-					al_draw_bitmap(portal_opened, 1000, 45, NULL);
+					al_draw_bitmap(portal_opened, 1000, 85, NULL);
 				}
 				switch (tutorial_event.keyboard.keycode)
 				{
