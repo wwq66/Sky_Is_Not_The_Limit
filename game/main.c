@@ -2098,25 +2098,105 @@ int main()
 					down_key_locked = true;
 				}
 
+				//torch
+				if ((x_position == 205) && (y_position == 75)&&(torch_exists==true))
+				{
+					torch_exists = false;
+					torch_owned = true;
+				}
 
+				//spidersweb
+				if ((x_position == 385) && (y_position == 315) && (torch_owned == true))
+				{
+					spidersweb_destroyed = true;
+					torch_owned = false;
+				}
 
+				//bucket
+				if ((x_position == 585) && (y_position == 555) && (bucket_exists == true))
+				{
+					bucket_exists = false;
+					bucket_owned = true;
+				}
 
+				//fire
+				if ((x_position == 825) && (y_position == 435) && (bucket_owned == true))
+				{
+					bucket_owned = false;
+					fire_burning = false;
+				}
 
+				//pick
+				if ((x_position == 945) && (y_position == 555))
+				{
+					pick_owned = true;
+				}
 
+				//stone
+				if ((x_position == 925) && (y_position == 195) && (pick_owned == true))
+				{
+					stone_destroyed = true;
+				}
 
+				//key
+				if ((x_position == 745) && (y_position == 75))
+				{
+					key_owned = true;
+				}
 
+				//door
+				if ((x_position == 165) && (y_position == 75) && (key_owned == true))
+				{
+					door_opened = true;
+				}
 
+				//artifact
+				if ((x_position == 65) && (y_position == 75))
+				{
+					artifact_owned = true;
+				}
 
+				//portal
+				if ((x_position == 1085) && (y_position == 75))
+				{
+					champion_over_portal = true;
+				}
 
+				//end
+				if ((champion_over_portal == true) && (artifact_owned == true))
+				{
+					end_of_lvl3 = true;
+				}
 
-
-			
 				printf("x: %d\n", mouse_x);
 				printf("y: %d\n", mouse_y);
 				printf("x_position: %d\n", x_position);
 				printf("y_position: %d\n", y_position);
 				al_flip_display();
 			}//while end of lvl3 = false
+			al_destroy_bitmap(lvl3_artifact);
+			al_destroy_bitmap(lvl3_background);
+			al_destroy_bitmap(lvl3_ash);
+			al_destroy_bitmap(lvl3_bucket);
+			al_destroy_bitmap(lvl3_fire);
+			al_destroy_bitmap(lvl3_ground_1);
+			al_destroy_bitmap(lvl3_ground_2);
+			al_destroy_bitmap(lvl3_ground_3);
+			al_destroy_bitmap(lvl3_ground_45);
+			al_destroy_bitmap(lvl3_champion);
+			al_destroy_bitmap(lvl3_closed_door);
+			al_destroy_bitmap(lvl3_closed_portal);
+			al_destroy_bitmap(lvl3_destroyed_stone);
+			al_destroy_bitmap(lvl3_stone);
+			al_destroy_bitmap(lvl3_key);
+			al_destroy_bitmap(lvl3_ladder);
+			al_destroy_bitmap(lvl3_opened_door);
+			al_destroy_bitmap(lvl3_opened_portal);
+			al_destroy_bitmap(lvl3_pickaxe);
+			al_destroy_bitmap(lvl3_torch);
+			al_destroy_bitmap(lvl3_spidersweb);
+			al_destroy_bitmap(lvl3_destroyed_spidersweb);
+			al_destroy_display(lvl3_display);
 		}//click lvl3 = true
 	} // click ng=true
 	system("pause");
