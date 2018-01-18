@@ -636,10 +636,16 @@ int main()
 
 			ALLEGRO_BITMAP *lvl1_destroyed_stone = al_load_bitmap("destroyed_stone_lvls.png");
 
-			ALLEGRO_BITMAP *lvl1_opened_portal = al_load_bitmap("opened_portal_lvls.png");
+			ALLEGRO_BITMAP *lvl1_opened_portal = al_load_bitmap("opened_portal_lvls.png"); 
+
+			ALLEGRO_BITMAP *lvl1_enemy = al_load_bitmap("enemy_lvls.png");
 
 			int x_position = 65;
 			int y_position = 555;
+			int x_enemy1 = 65;
+			int y_enemy1 = 315;
+			int x_enemy2 = 1145;
+			int y_enemy2 = 195;
 			bool left_key_locked = false;
 			bool right_key_locked = false;
 			bool up_key_locked = false;
@@ -653,12 +659,19 @@ int main()
 			bool artifact_owned = false;
 			bool champion_over_portal = false;
 			bool end_of_lvl1 = false;
+			bool dead = false;
+			bool enemy1_go_left = false;
+			bool enemy2_go_left = true;
+
+			ALLEGRO_TIMER *enemy_timer = al_create_timer(1.0 / FPS);
 
 			ALLEGRO_EVENT_QUEUE *lvl1_queue = al_create_event_queue();
 			al_register_event_source(lvl1_queue, al_get_mouse_event_source());
 			al_register_event_source(lvl1_queue, al_get_keyboard_event_source());
 			al_register_event_source(lvl1_queue, al_get_display_event_source(lvl1_display));
+			al_register_event_source(lvl1_queue, al_get_timer_event_source(enemy_timer));
 
+			al_start_timer(enemy_timer);
 			while (!end_of_lvl1)
 			{
 				ALLEGRO_EVENT lvl1_event;
@@ -670,78 +683,100 @@ int main()
 					mouse_y = lvl1_event.mouse.y;
 				}
 
+				if (lvl1_event.type == ALLEGRO_EVENT_TIMER)
+				{
+					if (enemy1_go_left == true)
+					{
+						x_enemy1 = x_enemy1 - 2;
+					}
+					else
+					{
+						x_enemy1 = x_enemy1 + 2;
+					}
+					if (enemy2_go_left == true)
+					{
+						x_enemy2 = x_enemy2 - 2;
+					}
+					else
+					{
+						x_enemy2 = x_enemy2 + 2;
+					}
+				}
+
+				al_clear_to_color(al_map_rgb(0, 0, 0));
+				al_draw_bitmap(lvl1_background, 0, 0, NULL);
+				al_draw_bitmap(lvl1_ground, 65, 360, NULL);
+				al_draw_bitmap(lvl1_ground, 65, 240, NULL);
+				al_draw_bitmap(lvl1_ground, 65, 120, NULL);
+				al_draw_bitmap(lvl1_broken_ground, 65, 600, NULL);
+				al_draw_bitmap(lvl1_broken_ground, 65, 480, NULL);
+				al_draw_bitmap(lvl1_ladder, 325, 492, NULL);
+				al_draw_bitmap(lvl1_ladder, 1105, 492, NULL);
+				al_draw_bitmap(lvl1_ladder, 165, 372, NULL);
+				al_draw_bitmap(lvl1_ladder, 545, 372, NULL);
+				al_draw_bitmap(lvl1_ladder, 985, 372, NULL);
+				al_draw_bitmap(lvl1_ladder, 365, 252, NULL);
+				al_draw_bitmap(lvl1_ladder, 925, 132, NULL);
+				if (artifact_owned == false)
+				{
+					al_draw_bitmap(lvl1_closed_portal, 1050, 15, NULL);
+				}
+				else
+				{
+					al_draw_bitmap(lvl1_opened_portal, 1050, 15, NULL);
+				}
+				if (door_opened == false)
+				{
+					al_draw_bitmap(lvl1_closed_door, 770, 252, NULL);
+				}
+				else
+				{
+					al_draw_bitmap(lvl1_opened_door, 770, 252, NULL);
+				}
+				if (pick_owned == false)
+				{
+					al_draw_bitmap(lvl1_pickaxe, 95, 440, NULL);
+				}
+				else
+				{
+					al_draw_bitmap(lvl1_pickaxe, 15, 15, NULL);
+				}
+				if (stone1_destroyed == false)
+				{
+					al_draw_bitmap(lvl1_stone, 235, 372, NULL);
+				}
+				else
+				{
+					al_draw_bitmap(lvl1_destroyed_stone, 235, 372, NULL);
+				}
+				if (stone2_destroyed == false)
+				{
+					al_draw_bitmap(lvl1_stone, 825, 132, NULL);
+				}
+				else
+				{
+					al_draw_bitmap(lvl1_destroyed_stone, 825, 132, NULL);
+				}
+				if (key_owned == false)
+				{
+					al_draw_bitmap(lvl1_key, 95, 80, NULL);
+				}
+				else
+				{
+					al_draw_bitmap(lvl1_key, 60, 15, NULL);
+				}
+				if (artifact_owned == false)
+				{
+					al_draw_bitmap(lvl1_artifact, 1000, 560, NULL);
+				}
+				else
+				{
+					al_draw_bitmap(lvl1_artifact, 105, 15, NULL);
+				}
+
 				if (lvl1_event.type == ALLEGRO_EVENT_KEY_DOWN)
 				{
-					al_clear_to_color(al_map_rgb(0, 0, 0));
-					al_draw_bitmap(lvl1_background, 0, 0, NULL);
-					al_draw_bitmap(lvl1_ground, 65, 360, NULL);
-					al_draw_bitmap(lvl1_ground, 65, 240, NULL);
-					al_draw_bitmap(lvl1_ground, 65, 120, NULL);
-					al_draw_bitmap(lvl1_broken_ground, 65, 600, NULL);
-					al_draw_bitmap(lvl1_broken_ground, 65, 480, NULL);
-					al_draw_bitmap(lvl1_ladder, 325, 492, NULL);
-					al_draw_bitmap(lvl1_ladder, 1105, 492, NULL);
-					al_draw_bitmap(lvl1_ladder, 165, 372, NULL);
-					al_draw_bitmap(lvl1_ladder, 545, 372, NULL);
-					al_draw_bitmap(lvl1_ladder, 985, 372, NULL);
-					al_draw_bitmap(lvl1_ladder, 365, 252, NULL);
-					al_draw_bitmap(lvl1_ladder, 925, 132, NULL);
-					if (artifact_owned == false)
-					{
-						al_draw_bitmap(lvl1_closed_portal, 1050, 15, NULL);
-					}
-					else
-					{
-						al_draw_bitmap(lvl1_opened_portal, 1050, 15, NULL);
-					}
-					if (door_opened == false)
-					{
-						al_draw_bitmap(lvl1_closed_door, 770, 252, NULL);
-					}
-					else
-					{
-						al_draw_bitmap(lvl1_opened_door, 770, 252, NULL);
-					}
-					if (pick_owned == false)
-					{
-						al_draw_bitmap(lvl1_pickaxe, 95, 440, NULL);
-					}
-					else
-					{
-						al_draw_bitmap(lvl1_pickaxe, 15, 15, NULL);
-					}
-					if (stone1_destroyed == false)
-					{
-						al_draw_bitmap(lvl1_stone, 235, 372, NULL);
-					}
-					else
-					{
-						al_draw_bitmap(lvl1_destroyed_stone, 235, 372, NULL);
-					}
-					if (stone2_destroyed == false)
-					{
-						al_draw_bitmap(lvl1_stone, 825, 132, NULL);
-					}
-					else
-					{
-						al_draw_bitmap(lvl1_destroyed_stone, 825, 132, NULL);
-					}
-					if (key_owned == false)
-					{
-						al_draw_bitmap(lvl1_key, 95, 80, NULL);
-					}
-					else
-					{
-						al_draw_bitmap(lvl1_key, 60, 15, NULL);
-					}
-					if (artifact_owned == false)
-					{
-						al_draw_bitmap(lvl1_artifact, 1000, 560, NULL);
-					}
-					else
-					{
-						al_draw_bitmap(lvl1_artifact, 105, 15, NULL);
-					}
+					
 					switch (lvl1_event.keyboard.keycode)
 					{
 					case ALLEGRO_KEY_LEFT:
@@ -783,6 +818,8 @@ int main()
 					}
 				}
 				al_draw_bitmap(lvl1_champion, x_position, y_position, NULL);
+				al_draw_bitmap(lvl1_enemy, x_enemy1, y_enemy1, NULL);
+				al_draw_bitmap(lvl1_enemy, x_enemy2, y_enemy2, NULL);
 
 				//RIGHT CLICK LOCKED
 				if (x_position == 1145)
@@ -922,6 +959,31 @@ int main()
 					down_key_locked = true;
 				}
 
+				//enemy moves
+				if (x_enemy1 == 65)
+				{
+					enemy1_go_left = false;
+				}
+				if ((x_enemy1 == 725) && (door_opened == false))
+				{
+					enemy1_go_left = true;
+				}
+				if (x_enemy1 == 1145)
+				{
+					enemy1_go_left = true;
+				}
+				if (x_enemy2 == 1145)
+				{
+					enemy2_go_left = true;
+				}
+				if ((x_enemy2 == 865) && (stone2_destroyed == false))
+				{
+					enemy2_go_left = false;
+				}
+				if (x_enemy2 == 65)
+				{
+					enemy2_go_left = false;
+				}
 				//PICK
 				if ((x_position == 105) && (y_position == 435))
 				{
@@ -976,6 +1038,26 @@ int main()
 					end_of_lvl1 = true;
 				}
 
+				//dead
+				if ((x_position >= x_enemy1) && (x_position <= x_enemy1 + 30) && (y_position == y_enemy1))
+				{
+					dead = true;
+				}
+				else if ((x_position >= x_enemy2) && (x_position <= x_enemy2 + 30) && (y_position == y_enemy2))
+				{
+					dead = true;
+				}
+				else
+				{
+					dead = false;
+				}
+
+				//return
+				if (dead == true)
+				{
+					x_position = 65;
+					y_position = 555;
+				}
 
 
 				printf("x: %d\n", mouse_x);
@@ -984,6 +1066,7 @@ int main()
 				printf("y_position: %d\n", y_position);
 				al_flip_display();
 			} //while end lvl 1 = false
+			al_stop_timer(enemy_timer);
 			al_destroy_bitmap(lvl1_artifact);
 			al_destroy_bitmap(lvl1_background);
 			al_destroy_bitmap(lvl1_broken_ground);
@@ -1085,8 +1168,12 @@ int main()
 
 			ALLEGRO_BITMAP *lvl2_ash = al_load_bitmap("ash_lvls.png");
 
+			ALLEGRO_BITMAP *lvl2_enemy = al_load_bitmap("enemy_lvls.png");
+
 			int x_position = 65;
 			int y_position = 555;
+			int x_enemy1 = 185;
+			int y_enemy1=435;
 			bool left_key_locked = false;
 			bool right_key_locked = false;
 			bool up_key_locked = false;
@@ -1107,13 +1194,19 @@ int main()
 			bool fire2_burning = true;
 			bool fire3_burning = true;
 			bool end_of_lvl2 = false;
+			bool dead = false;
+			bool enemy1_go_left = false;
 
+
+			ALLEGRO_TIMER *enemy_timer = al_create_timer(1.0 / FPS);
 
 			ALLEGRO_EVENT_QUEUE *lvl2_queue = al_create_event_queue();
 			al_register_event_source(lvl2_queue, al_get_mouse_event_source());
 			al_register_event_source(lvl2_queue, al_get_keyboard_event_source());
 			al_register_event_source(lvl2_queue, al_get_display_event_source(lvl2_display));
+			al_register_event_source(lvl2_queue, al_get_timer_event_source(enemy_timer));
 
+			al_start_timer(enemy_timer);
 			while (!end_of_lvl2)
 			{
 				ALLEGRO_EVENT lvl2_event;
@@ -1125,120 +1218,134 @@ int main()
 					mouse_y = lvl2_event.mouse.y;
 				}
 
+				if (lvl2_event.type == ALLEGRO_EVENT_TIMER)
+				{
+					if (enemy1_go_left == true)
+					{
+						x_enemy1 = x_enemy1 - 2;
+					}
+					else
+					{
+						x_enemy1 = x_enemy1 + 2;
+					}
+				}
+
+				al_clear_to_color(al_map_rgb(0, 0, 0));
+				al_draw_bitmap(lvl2_background, 0, 0, NULL);
+				al_draw_bitmap(lvl2_ground_1, 65, 600, NULL);
+				al_draw_bitmap(lvl2_ground_2, 65, 480, NULL);
+				al_draw_bitmap(lvl2_ground_3, 65, 360, NULL);
+				al_draw_bitmap(lvl2_ground_4, 65, 240, NULL);
+				al_draw_bitmap(lvl2_ground_5, 65, 120, NULL);
+				al_draw_bitmap(lvl2_ladder, 205, 492, NULL);
+				al_draw_bitmap(lvl2_ladder, 505, 492, NULL);
+				al_draw_bitmap(lvl2_ladder, 925, 492, NULL);
+				al_draw_bitmap(lvl2_ladder, 365, 372, NULL);
+				al_draw_bitmap(lvl2_ladder, 105, 252, NULL);
+				al_draw_bitmap(lvl2_ladder, 105, 132, NULL);
+				al_draw_bitmap(lvl2_ladder, 565, 132, NULL);
+				al_draw_bitmap(lvl2_ladder, 805, 132, NULL);
+				al_draw_bitmap(lvl2_ladder, 805, 252, NULL);
+				if (bucket1_exists == true)
+				{
+					al_draw_bitmap(lvl2_bucket, 630, 560, NULL); //bucket 1
+				}
+				if (bucket2_exists == true)
+				{
+					al_draw_bitmap(lvl2_bucket, 85, 440, NULL); //bucket 2
+				}
+				if (bucket3_exists == true)
+				{
+					al_draw_bitmap(lvl2_bucket, 690, 200, NULL); //bucket 3
+				}
+				if (bucket_owned == true)
+				{
+					al_draw_bitmap(lvl2_bucket, 15, 50, NULL);
+				}
+				if (stone1_destroyed == false)
+				{
+					al_draw_bitmap(lvl2_stone, 150, 372, NULL);
+				}
+				else
+				{
+					al_draw_bitmap(lvl2_destroyed_stone, 150, 372, NULL);
+				}
+				if (stone2_destroyed == false)
+				{
+					al_draw_bitmap(lvl2_stone, 325, 15, NULL);
+				}
+				else
+				{
+					al_draw_bitmap(lvl2_destroyed_stone, 325, 15, NULL);
+				}
+				if (pick_owned == false)
+				{
+					al_draw_bitmap(lvl2_pickaxe, 1060, 560, NULL);
+				}
+				else
+				{
+					al_draw_bitmap(lvl2_pickaxe, 15, 15, NULL);
+				}
+				if (door_opened == false)
+				{
+					al_draw_bitmap(lvl2_closed_door, 1030, 252, NULL);
+				}
+				else
+				{
+					al_draw_bitmap(lvl2_opened_door, 1030, 252, NULL);
+				}
+				if (artifact_owned == false)
+				{
+					al_draw_bitmap(lvl2_artifact, 1100, 320, NULL);
+				}
+				else
+				{
+					al_draw_bitmap(lvl2_artifact, 105, 15, NULL);
+				}
+				if (key_owned == false)
+				{
+					al_draw_bitmap(lvl2_key, 1025, 80, NULL);
+				}
+				else
+				{
+					al_draw_bitmap(lvl2_key, 60, 15, NULL);
+				}
+				if (artifact_owned == false)
+				{
+					al_draw_bitmap(lvl2_closed_portal, 1080, 15, NULL);
+				}
+				else
+				{
+					al_draw_bitmap(lvl2_opened_portal, 1080, 15, NULL);
+				}
+				if (fire1_burning == true)
+				{
+					al_draw_bitmap(lvl2_fire, 850, 372, NULL);
+				}
+				else
+				{
+					al_draw_bitmap(lvl2_ash, 850, 372, NULL);
+				}
+				if (fire2_burning == true)
+				{
+					al_draw_bitmap(lvl2_fire, 260, 252, NULL);
+				}
+				else
+				{
+					al_draw_bitmap(lvl2_ash, 260, 252, NULL);
+				}
+				if (fire3_burning == true)
+				{
+					al_draw_bitmap(lvl2_fire, 890, 15, NULL);
+				}
+				else
+				{
+					al_draw_bitmap(lvl2_ash, 890, 15, NULL);
+				}
 				if (lvl2_event.type == ALLEGRO_EVENT_KEY_DOWN)
 				{
-					al_clear_to_color(al_map_rgb(0, 0, 0));
-					al_draw_bitmap(lvl2_background, 0, 0, NULL);
-					al_draw_bitmap(lvl2_ground_1, 65, 600, NULL);
-					al_draw_bitmap(lvl2_ground_2, 65, 480, NULL);
-					al_draw_bitmap(lvl2_ground_3, 65, 360, NULL);
-					al_draw_bitmap(lvl2_ground_4, 65, 240, NULL);
-					al_draw_bitmap(lvl2_ground_5, 65, 120, NULL);
-					al_draw_bitmap(lvl2_ladder, 205, 492, NULL);
-					al_draw_bitmap(lvl2_ladder, 505, 492, NULL);
-					al_draw_bitmap(lvl2_ladder, 925, 492, NULL);
-					al_draw_bitmap(lvl2_ladder, 365, 372, NULL);
-					al_draw_bitmap(lvl2_ladder, 105, 252, NULL);
-					al_draw_bitmap(lvl2_ladder, 105, 132, NULL);
-					al_draw_bitmap(lvl2_ladder, 565, 132, NULL);
-					al_draw_bitmap(lvl2_ladder, 805, 132, NULL);
-					al_draw_bitmap(lvl2_ladder, 805, 252, NULL);
-					if (bucket1_exists == true)
-					{
-						al_draw_bitmap(lvl2_bucket, 630, 560, NULL); //bucket 1
-					}
-					if (bucket2_exists == true)
-					{
-						al_draw_bitmap(lvl2_bucket, 85, 440, NULL); //bucket 2
-					}
-					if (bucket3_exists == true)
-					{
-						al_draw_bitmap(lvl2_bucket, 690, 200, NULL); //bucket 3
-					}
-					if (bucket_owned == true)
-					{
-						al_draw_bitmap(lvl2_bucket, 15, 50, NULL);
-					}
-					if (stone1_destroyed == false)
-					{
-						al_draw_bitmap(lvl2_stone, 150, 372, NULL);
-					}
-					else
-					{
-						al_draw_bitmap(lvl2_destroyed_stone, 150, 372, NULL);
-					}
-					if (stone2_destroyed == false)
-					{
-						al_draw_bitmap(lvl2_stone, 325, 15, NULL);
-					}
-					else
-					{
-						al_draw_bitmap(lvl2_destroyed_stone, 325, 15, NULL);
-					}
-					if (pick_owned == false)
-					{
-						al_draw_bitmap(lvl2_pickaxe, 1060, 560, NULL);
-					}
-					else
-					{
-						al_draw_bitmap(lvl2_pickaxe, 15, 15, NULL);
-					}
-					if (door_opened == false)
-					{
-						al_draw_bitmap(lvl2_closed_door, 1030, 252, NULL);
-					}
-					else
-					{
-						al_draw_bitmap(lvl2_opened_door, 1030, 252, NULL);
-					}
-					if (artifact_owned == false)
-					{
-						al_draw_bitmap(lvl2_artifact, 1100, 320, NULL);
-					}
-					else
-					{
-						al_draw_bitmap(lvl2_artifact, 105, 15, NULL);
-					}
-					if (key_owned == false)
-					{
-						al_draw_bitmap(lvl2_key, 1025, 80, NULL);
-					}
-					else
-					{
-						al_draw_bitmap(lvl2_key, 60, 15, NULL);
-					}
-					if (artifact_owned == false)
-					{
-						al_draw_bitmap(lvl2_closed_portal, 1080, 15, NULL);
-					}
-					else
-					{
-						al_draw_bitmap(lvl2_opened_portal, 1080, 15, NULL);
-					}
-					if (fire1_burning == true)
-					{
-						al_draw_bitmap(lvl2_fire, 850, 372, NULL);
-					}
-					else
-					{
-						al_draw_bitmap(lvl2_ash, 850, 372, NULL);
-					}
-					if (fire2_burning == true)
-					{
-						al_draw_bitmap(lvl2_fire, 260, 252, NULL);
-					}
-					else
-					{
-						al_draw_bitmap(lvl2_ash, 260, 252, NULL);
-					}
-					if (fire3_burning == true)
-					{
-						al_draw_bitmap(lvl2_fire, 890, 15, NULL);
-					}
-					else
-					{
-						al_draw_bitmap(lvl2_ash, 890, 15, NULL);
-					}
+				
+					
 					switch (lvl2_event.keyboard.keycode)
 					{
 					case ALLEGRO_KEY_LEFT:
@@ -1280,6 +1387,7 @@ int main()
 					}//switch
 				}//if event key down
 				al_draw_bitmap(lvl2_champion, x_position, y_position, NULL);
+				al_draw_bitmap(lvl2_enemy, x_enemy1, y_enemy1, NULL);
 
 				//LEFT KEY LOCKED
 				if (x_position == 65)
@@ -1491,6 +1599,26 @@ int main()
 				down_key_locked = true;
 				}
 
+				//enemy moves
+				if ((x_enemy1 == 185)&&(stone1_destroyed==false))
+				{
+					enemy1_go_left = false;
+				}
+				if ((x_enemy1 == 805) && (fire1_burning == true))
+				{
+					enemy1_go_left = true;
+				}
+				if (x_enemy1 == 985)
+				{
+					enemy1_go_left = true;
+				}
+				if (x_enemy1 == 65)
+				{
+					enemy1_go_left = false;
+				}
+
+				
+
 				//bucket1
 				if ((bucket1_exists == true) && (x_position == 625) && (y_position == 555))
 				{
@@ -1569,6 +1697,35 @@ int main()
 					artifact_owned = true;
 				}
 
+				//dead
+				if ((x_position >= x_enemy1) && (x_position <= x_enemy1 + 30) && (y_position == y_enemy1))
+				{
+					dead = true;
+				}
+				else if ((x_position == 805) && (y_position == 435) && (fire1_burning == true))
+				{
+					dead = true;
+				}
+				else if ((x_position == 325) && (y_position == 315) && (fire2_burning == true))
+				{
+					dead = true;
+				}
+				else if ((x_position == 845) && (y_position == 75) && (fire3_burning == true))
+				{
+					dead = true;
+				}
+				else
+				{
+					dead = false;
+				}
+
+				//return
+				if (dead == true)
+				{
+					x_position = 65;
+					y_position = 555;
+				}
+
 				//champion over portal
 				if ((artifact_owned == true) && (x_position == 1085) && (y_position == 75))
 				{
@@ -1586,6 +1743,7 @@ int main()
 				printf("y_position: %d\n", y_position);
 				al_flip_display();
 			}//while end of lvl2 = false
+			al_stop_timer(enemy_timer);
 			al_destroy_bitmap(lvl2_artifact);
 			al_destroy_bitmap(lvl2_background);
 			al_destroy_bitmap(lvl2_ash);
